@@ -29,8 +29,8 @@ class MainPagerAdapter(internal var mContext: android.content.Context) : android
         return v!!
     }
 
-    override fun destroyItem(pager: android.view.View?, position: Int, view: Any?) {
-        (pager as android.support.v4.view.ViewPager).removeView(view as android.view.View?)
+    override fun destroyItem(container: ViewGroup?, position: Int, view: Any?) {
+        container!!.removeView(view as android.view.View?)
     }
 
     override fun isViewFromObject(v: android.view.View, obj: Any): Boolean {
