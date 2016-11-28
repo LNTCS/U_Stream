@@ -72,7 +72,7 @@
             android:gravity="bottom|center_horizontal"
             android:text="●"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/small_text"/>
+            android:textSize="6sp"/>
     </LinearLayout>
 
     <!--콘텐트-->
