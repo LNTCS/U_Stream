@@ -47,6 +47,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        pAdapter?.let (MainPagerAdapter::notifyDataSetChanged)
+        pAdapter?.run { notifyDataSetChanged() }
     }
 }
