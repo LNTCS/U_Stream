@@ -93,7 +93,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorBgLgt"
-        android:minHeight="?attr/actionBarSize"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/bottom_tab_height"
         android:orientation="horizontal"
         android:weightSum="1">
 
@@ -128,8 +129,8 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_width="@dimen/bottom_tab_height"
+            android:layout_height="@dimen/bottom_tab_height"
             android:background="@color/colorPrimary">
 
             <ImageButton

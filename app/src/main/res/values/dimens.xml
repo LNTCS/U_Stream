@@ -8,6 +8,7 @@
     <dimen name="text_padding">12dp</dimen>
     <dimen name="main_padding">8dp</dimen>
 
+    <dimen name="title_text">24sp</dimen>
     <dimen name="label_text">21sp</dimen>
     <dimen name="large_text">18sp</dimen>
     <dimen name="default_text">16sp</dimen>
@@ -17,4 +18,5 @@
     <dimen name="divider_height">28dp</dimen>
     <dimen name="divider_width">2dp</dimen>
     <dimen name="tab_height">36dp</dimen>
+    <dimen name="bottom_tab_height">64dp</dimen>
 </resources>
