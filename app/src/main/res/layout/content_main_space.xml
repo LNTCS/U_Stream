@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBg"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="-4dp"
+            cardview:cardCornerRadius="4dp"
+            cardview:cardElevation="5dp"
+            cardview:cardPreventCornerOverlap="false"
+            cardview:cardUseCompatPadding="true">
+
+            <net.soulwolf.widget.ratiolayout.widget.RatioRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:datumRatio="datumWidth"
+                app:heightRatio="1.8"
+                app:widthRatio="3">
+
+                <net.soulwolf.widget.ratiolayout.widget.RatioImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@color/colorPrimary"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/fader">
+
+                    <TextView
+                        android:id="@+id/spaceCmdTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:paddingBottom="@dimen/activity_horizontal_margin"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:text="노래 이름 - 가수 이름"
+                        android:textColor="@color/textWhite"
+                        android:textSize="@dimen/title_text"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@id/spaceCmdTitle"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:text="오늘은 이 노래 어때요?"
+                        android:textColor="@color/textWhite"
+                        android:textSize="@dimen/sub_text"/>
+                </RelativeLayout>
+            </net.soulwolf.widget.ratiolayout.widget.RatioRelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:id="@+id/recentList"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/tab_height"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:padding="@dimen/small_margin"
+                        android:src="@drawable/ic_fav_playlist"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/small_margin"
+                        android:text="최근 플레이 리스트"
+                        android:textColor="@color/colorPrimary"/>
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recentRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/recentMusic"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/tab_height"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:padding="@dimen/small_margin"
+                        android:src="@drawable/ic_fav_music"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/small_margin"
+                        android:text="최근 재생한 노래"
+                        android:textColor="@color/colorPrimary"/>
+                </LinearLayout>
+
+                <net.soulwolf.widget.ratiolayout.widget.RatioRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:datumRatio="datumWidth"
+                    app:heightRatio="1"
+                    app:widthRatio="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <android.support.v7.widget.CardView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:padding="-4dp"
+                                    cardview:cardBackgroundColor="@color/colorBgLgt"
+                                    cardview:cardCornerRadius="4dp"
+                                    cardview:cardElevation="1dp"
+                                    cardview:cardPreventCornerOverlap="false"
+                                    cardview:cardUseCompatPadding="true"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <android.support.v7.widget.CardView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:padding="-4dp"
+                                    cardview:cardBackgroundColor="@color/colorBgLgt"
+                                    cardview:cardCornerRadius="4dp"
+                                    cardview:cardElevation="1dp"
+                                    cardview:cardPreventCornerOverlap="false"
+                                    cardview:cardUseCompatPadding="true"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <android.support.v7.widget.CardView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:padding="-4dp"
+                                    cardview:cardBackgroundColor="@color/colorBgLgt"
+                                    cardview:cardCornerRadius="4dp"
+                                    cardview:cardElevation="1dp"
+                                    cardview:cardPreventCornerOverlap="false"
+                                    cardview:cardUseCompatPadding="true"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <android.support.v7.widget.CardView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:padding="-4dp"
+                                    cardview:cardBackgroundColor="@color/colorBgLgt"
+                                    cardview:cardCornerRadius="4dp"
+                                    cardview:cardElevation="1dp"
+                                    cardview:cardPreventCornerOverlap="false"
+                                    cardview:cardUseCompatPadding="true"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </net.soulwolf.widget.ratiolayout.widget.RatioRelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

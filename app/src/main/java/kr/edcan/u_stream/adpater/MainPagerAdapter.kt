@@ -1,7 +1,8 @@
 package kr.edcan.u_stream.adpater
 
 import android.view.View
-import android.widget.LinearLayout
+import android.view.ViewGroup
+import kr.edcan.u_stream.R
 
 /**
  * Created by LNTCS on 2016-03-11.
@@ -17,15 +18,14 @@ class MainPagerAdapter(internal var mContext: android.content.Context) : android
         return 3
     }
 
-    override fun instantiateItem(pager: android.view.View?, position: Int): Any {
+    override fun instantiateItem(container: ViewGroup?, position: Int): Any {
         var v: View? = null
         when (position) {
-//            0 -> v = mInflater.inflate(R.layout., null)
-//            1 -> v = mInflater.inflate(R.layout., null)
-//            2 -> v = mInflater.inflate(R.layout., null)
+            0 -> v = mInflater.inflate(R.layout.content_main_space, null)
+            1 -> v = mInflater.inflate(R.layout.content_main_space, null)
+            2 -> v = mInflater.inflate(R.layout.content_main_space, null)
         }
-        v = LinearLayout(mContext)
-        (pager as android.support.v4.view.ViewPager).addView(v, null)
+        container!!.addView(v, null)
         return v!!
     }
 
