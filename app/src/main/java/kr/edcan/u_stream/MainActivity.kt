@@ -1,5 +1,6 @@
 package kr.edcan.u_stream
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
@@ -10,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import kr.edcan.u_stream.adpater.MainPagerAdapter
 import org.jetbrains.anko.textColor
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -44,9 +46,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     override fun onResume() {
         super.onResume()
         pAdapter?.run { notifyDataSetChanged() }
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(base))
     }
 }

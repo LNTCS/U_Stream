@@ -3,6 +3,7 @@ package kr.edcan.u_stream.adpater
 import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import io.karim.MaterialTabs
 import kr.edcan.u_stream.R
 import org.jetbrains.anko.find
@@ -32,6 +33,7 @@ class MainPagerAdapter(internal var mContext: android.content.Context) : android
                 v = mInflater.inflate(R.layout.content_main_analog, null)
                 val analogTab = v.find<MaterialTabs>(R.id.analogTab)
                 val analogPager = v.find<ViewPager>(R.id.analogPager)
+                v.find<TextView>(R.id.analogTitle)
                 analogPager.adapter = analogPagerAdapter
                 analogTab.setViewPager(analogPager)
             }
