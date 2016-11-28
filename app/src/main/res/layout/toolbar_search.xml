@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/lib/kr.edcan.youtube"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/colorBgLgt"
+    android:minHeight="?attr/actionBarSize"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/small_margin"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    android:weightSum="1"
+    app:layout_scrollFlags="scroll|enterAlways|snap"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <ImageView
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_logo"/>
+
+        <RelativeLayout
+            android:layout_width="@dimen/divider_border"
+            android:layout_height="@dimen/divider_height"
+            android:layout_gravity="center"
+            android:background="@color/colorDivider"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/main_padding"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/main_padding">
+
+            <EditText
+                android:id="@+id/searchEdit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/shp_rounded"
+                android:gravity="center_vertical"
+                android:hint="검색어를 입력해주세요."
+                android:imeOptions="actionSearch"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/small_margin"
+                android:singleLine="true"
+                android:textSize="@dimen/large_text"/>
+
+            <ImageView
+                android:id="@+id/searchBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:adjustViewBounds="true"
+                android:scaleType="center"
+                android:src="@drawable/ic_search_sml"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

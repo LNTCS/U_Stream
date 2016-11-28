@@ -10,6 +10,8 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import kr.edcan.u_stream.adpater.MainPagerAdapter
+import org.jetbrains.anko.onClick
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.textColor
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import java.util.*
@@ -44,6 +46,8 @@ class MainActivity : AppCompatActivity() {
                 override fun onPageSelected(position: Int) { }
             })
         }
+
+        toolbarSearch.onClick { startActivity<SearchActivity>() }
     }
 
     override fun onResume() {

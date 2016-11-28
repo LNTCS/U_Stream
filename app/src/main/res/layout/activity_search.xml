@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_search"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pager_tab_height"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_border"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorDivider"/>
+
+        <io.karim.MaterialTabs
+            android:id="@+id/searchTab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/textLgtGray"
+            app:mtIndicatorColor="?attr/colorPrimary"
+            app:mtIndicatorHeight="@dimen/divider_border"
+            app:mtPaddingMiddle="false"
+            app:mtSameWeightTabs="true"
+            app:mtTextColorSelected="?attr/colorPrimary"/>
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/searchPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"/>
+</LinearLayout>

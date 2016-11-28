@@ -18,6 +18,6 @@
     <dimen name="divider_height">28dp</dimen>
     <dimen name="divider_border">2dp</dimen>
     <dimen name="tab_height">36dp</dimen>
-    <dimen name="analog_tab_height">48dp</dimen>
+    <dimen name="pager_tab_height">48dp</dimen>
     <dimen name="bottom_tab_height">64dp</dimen>
 </resources>
