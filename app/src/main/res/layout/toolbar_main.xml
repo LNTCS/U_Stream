@@ -29,7 +29,7 @@
             android:src="@drawable/ic_logo"/>
 
         <RelativeLayout
-            android:layout_width="@dimen/divider_width"
+            android:layout_width="@dimen/divider_border"
             android:layout_height="@dimen/divider_height"
             android:layout_gravity="center"
             android:background="@color/colorDivider"/>

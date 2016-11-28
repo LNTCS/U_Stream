@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10">
+
+    <net.soulwolf.widget.ratiolayout.widget.RatioRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:datumRatio="datumWidth"
+        app:heightRatio="1"
+        app:widthRatio="3">
+
+        <net.soulwolf.widget.ratiolayout.widget.RatioImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_analog"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/sqr_border"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_vertical_margin">
+
+                <TextView
+                    android:id="@+id/analogTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:text="ANALOG"
+                    android:textColor="@android:color/white"
+                    android:textSize="29sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/analogTitle"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="스트리밍 플레이가 아닌 스마트폰 안에 있는 노래를 들을 수 있습니다."
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/small_text"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </net.soulwolf.widget.ratiolayout.widget.RatioRelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/analog_tab_height"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_border"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorDivider"/>
+
+        <io.karim.MaterialTabs
+            android:id="@+id/analogTab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/textLgtGray"
+            app:mtIndicatorColor="?attr/colorPrimary"
+            app:mtIndicatorHeight="@dimen/divider_border"
+            app:mtPaddingMiddle="false"
+            app:mtSameWeightTabs="true"
+            app:mtTextColorSelected="?attr/colorPrimary"/>
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/analogPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

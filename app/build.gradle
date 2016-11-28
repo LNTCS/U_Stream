@@ -35,6 +35,7 @@ dependencies {
     compile 'org.jetbrains.anko:anko-sdk23:0.9'
     compile 'com.github.nitrico.lastadapter:lastadapter:2.0.0'
     compile 'net.soulwolf.widget:ratiolayout:1.0.0'
+    compile 'io.karim:materialtabs:2.0.3'
     kapt 'com.android.databinding:compiler:2.2.1'
 }
 repositories {
