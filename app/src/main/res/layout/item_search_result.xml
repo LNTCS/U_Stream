@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="kr.edcan.u_stream.model.SearchData"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="84dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="92dp"
+            android:layout_height="68dp"
+            android:layout_gravity="center_vertical"
+            android:padding="-4dp"
+            cardview:cardBackgroundColor="#00000000"
+            cardview:cardCornerRadius="4dp"
+            cardview:cardElevation="0dp"
+            cardview:cardPreventCornerOverlap="false"
+            cardview:cardUseCompatPadding="true">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{item.thumbnail}"
+                android:src="@drawable/trans"/>
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lineSpacingExtra="4px"
+                android:maxLines="2"
+                android:text="@{item.title}"
+                android:textColor="@color/textWhite"
+                android:textSize="@dimen/default_text"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{item.uploader}"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/small_text"/>
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_width="@dimen/tab_height"
+            android:layout_height="@dimen/tab_height"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_search_add"/>
+
+        <ImageButton
+            android:layout_width="@dimen/tab_height"
+            android:layout_height="@dimen/tab_height"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_search_play"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="@dimen/main_padding"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</layout>
