@@ -1,6 +1,7 @@
 package kr.edcan.u_stream
 
 import android.app.Application
+import io.realm.Realm
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 
 class Application : Application() {
@@ -18,5 +19,6 @@ class Application : Application() {
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         )
+        Realm.init(this)
     }
 }
