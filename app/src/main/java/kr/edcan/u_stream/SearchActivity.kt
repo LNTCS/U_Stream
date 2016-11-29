@@ -11,6 +11,7 @@ import com.github.kittinunf.fuel.httpGet
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.toolbar_search.*
 import kr.edcan.u_stream.adpater.SearchResultPagerAdapter
+import kr.edcan.u_stream.model.SType
 import kr.edcan.u_stream.model.SearchData
 import kr.edcan.u_stream.utils.DialogUtil
 import org.jetbrains.anko.onClick
@@ -65,7 +66,8 @@ class SearchActivity : AppCompatActivity() {
                             snippet.optString("title", ""),
                             snippet.optString("description", ""),
                             getThumb(snippet),
-                            snippet.optString("channelTitle", "")
+                            snippet.optString("channelTitle", ""),
+                            SType.MUSIC
                     )
                     searchMusics.add(data)
                     searchResultAdapter.notifyDataSetChanged()
@@ -86,7 +88,8 @@ class SearchActivity : AppCompatActivity() {
                                     snippet.optString("title", ""),
                                     snippet.optString("description", ""),
                                     getThumb(snippet),
-                                    snippet.optString("channelTitle", "")
+                                    snippet.optString("channelTitle", ""),
+                                    SType.PLAYLIST
                             )
                             searchLists.add(data)
                             searchResultAdapter.notifyDataSetChanged()

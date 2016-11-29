@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:cardview="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:cardview="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="kr.edcan.u_stream.model.SType"/>
+
+        <import type="android.view.View"/>
 
         <variable
             name="item"
@@ -33,8 +37,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:imageUrl="@{item.thumbnail}"
-                android:src="@drawable/trans"/>
+                android:src="@drawable/trans"
+                app:imageUrl="@{item.thumbnail}"/>
         </android.support.v7.widget.CardView>
 
         <LinearLayout
@@ -76,7 +80,8 @@
             android:layout_width="@dimen/tab_height"
             android:layout_height="@dimen/tab_height"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_search_play"/>
+            android:src="@drawable/ic_search_play"
+            android:visibility="@{(item.type == SType.MUSIC)? View.VISIBLE : View.GONE}"/>
 
         <android.support.v4.widget.Space
             android:layout_width="@dimen/main_padding"

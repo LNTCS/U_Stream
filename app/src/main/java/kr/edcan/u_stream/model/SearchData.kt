@@ -7,7 +7,11 @@ import com.bumptech.glide.Glide
 /**
  * Created by LNTCS on 2016-03-15.
  */
-class SearchData(val id: String, val title: String, val description: String, val thumbnail: String, val uploader: String) {
+enum class SType{
+    PLAYLIST, MUSIC
+}
+
+class SearchData(val id: String, val title: String, val description: String, val thumbnail: String, val uploader: String, var type: SType) {
 
     object ImageViewBindingAdapter {
         @BindingAdapter("imageUrl")
