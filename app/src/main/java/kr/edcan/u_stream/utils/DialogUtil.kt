@@ -2,16 +2,23 @@ package kr.edcan.u_stream.utils
 
 import android.content.Context
 import android.text.InputType
+import android.view.View
+import android.widget.AdapterView
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.github.kittinunf.fuel.httpGet
 import kr.edcan.u_stream.Application.Companion.KEY_LIST
 import kr.edcan.u_stream.Application.Companion.YOUTUBE_BASE_URL
 import kr.edcan.u_stream.Application.Companion.realm
 import kr.edcan.u_stream.R
+import kr.edcan.u_stream.adpater.PlayListSpinnerAdapter
 import kr.edcan.u_stream.model.RM_MusicData
 import kr.edcan.u_stream.model.RM_PlayListData
 import kr.edcan.u_stream.model.SType
 import kr.edcan.u_stream.model.SearchData
+import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 import java.util.*
@@ -118,6 +125,68 @@ object DialogUtil{
             }
         }.build()
         mDlg.show()
+    }
+
+    fun selectPlayListDialog(mContext: Context, data: SearchData, type: SType) {
+        var selectListPos = 0
+        val wrapInScrollView = true
+        var addDlg = MaterialDialog.Builder(mContext).run {
+                title("재생목록에 추가")
+                titleColorRes(R.color.colorPrimary)
+                customView(R.layout.content_dialog_add_playlist, wrapInScrollView)
+                backgroundColorRes(R.color.colorBgLgt)
+                positiveColorRes(R.color.colorPrimary)
+                positiveText("확인")
+                negativeColorRes(R.color.textGray)
+                negativeText("취소")
+        }.build()
+        val view = addDlg.customView!!
+
+        view.find<TextView>(R.id.addDlgContent).text = "'${data.title}'을(를) 재생목록에 추가합니다."
+
+        val spinnerAdapter = PlayListSpinnerAdapter(mContext)
+
+        val pList = realm.where(RM_PlayListData::class.java).findAll()
+        for (pData in pList) {
+            spinnerAdapter.addItem(pData.title)
+        }
+        spinnerAdapter.addItem("새 재생목록 추가...")
+        view.find<Spinner>(R.id.addDlgSpinner).run {
+            adapter = spinnerAdapter
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                    if (parent.count - 1 == position) {
+                        selectListPos = -1
+                    } else {
+                        selectListPos = position
+                    }
+                }
+                override fun onNothingSelected(parent: AdapterView<*>) {  }
+            }
+        }
+        addDlg.builder.onPositive(MaterialDialog.SingleButtonCallback { dialog, which ->
+            if (selectListPos == -1) {
+                addPlayListDialog(mContext, data, type)
+                return@SingleButtonCallback
+            }
+            val pData = pList[selectListPos]
+            val musicId = getNumberInt(realm.where(RM_MusicData::class.java).max("id")) + 1
+
+            if (type == SType.MUSIC) {
+                val mData = RM_MusicData()
+                mData.id = musicId
+                mData.title = data.title
+                mData.playListId = pData.id
+                mData.thumbnail = data.thumbnail
+                mData.uploader = data.uploader
+                mData.description = data.description
+                mData.videoId = data.id
+                realm.executeTransaction { realm -> realm.copyToRealm(mData) }
+                Toast.makeText(mContext, pData.title + "에 1곡이 추가되었습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                getMusics(mContext, data.id, pData.id, musicId, pData.title)
+            }
+        }).build().show()
     }
 
     fun getMusics(mContext: Context, id: String, playlistId: Int, musicId: Int, title: String) {

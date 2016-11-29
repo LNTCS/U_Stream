@@ -31,7 +31,7 @@ class SearchData(val id: String, val title: String, val description: String, val
         if (realm.where(RM_PlayListData::class.java).findAll().size == 0) {
             DialogUtil.addPlayListDialog(it.context, this, type)
         } else {
-//            DialogUtil.selectPlayListDialog(it.context, this, type)
+            DialogUtil.selectPlayListDialog(it.context, this, type)
         }
     }
 }
