@@ -74,6 +74,7 @@
             android:layout_width="@dimen/tab_height"
             android:layout_height="@dimen/tab_height"
             android:layout_gravity="center_vertical"
+            android:onClick="@{item.addMusic}"
             android:src="@drawable/ic_search_add"/>
 
         <ImageButton

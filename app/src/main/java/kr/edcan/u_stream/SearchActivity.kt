@@ -10,10 +10,14 @@ import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.httpGet
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.toolbar_search.*
+import kr.edcan.u_stream.Application.Companion.KEY_LIST
+import kr.edcan.u_stream.Application.Companion.KEY_SEARCH
+import kr.edcan.u_stream.Application.Companion.YOUTUBE_BASE_URL
 import kr.edcan.u_stream.adpater.SearchResultPagerAdapter
 import kr.edcan.u_stream.model.SType
 import kr.edcan.u_stream.model.SearchData
 import kr.edcan.u_stream.utils.DialogUtil
+import kr.edcan.u_stream.utils.DialogUtil.failDialog
 import org.jetbrains.anko.onClick
 import org.json.JSONException
 import org.json.JSONObject
@@ -30,7 +34,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        FuelManager.instance.basePath = Application.YOUTUBE_BASE_URL
+        FuelManager.instance.basePath = YOUTUBE_BASE_URL
 
         searchEdit.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH || event.keyCode == KeyEvent.KEYCODE_ENTER) {
@@ -52,7 +56,7 @@ class SearchActivity : AppCompatActivity() {
         searchLists.clear()
         DialogUtil.showProgressDialog(this)
         "/search".httpGet(
-                listOf("part" to "snippet", "key" to Application.KEY_SEARCH,
+                listOf("part" to "snippet", "key" to KEY_SEARCH,
                         "q" to searchEdit.text.toString(), "maxResults" to 50, "type" to "video")
         ).responseString { request, response, result ->
             val (data, error) = result
@@ -74,7 +78,7 @@ class SearchActivity : AppCompatActivity() {
                 }
                 // 재생목록 추가 로딩
                 "/search".httpGet(
-                        listOf("part" to "snippet", "key" to Application.KEY_LIST,
+                        listOf("part" to "snippet", "key" to KEY_LIST,
                                 "q" to searchEdit.text.toString(), "maxResults" to 50, "type" to "playlist")
                 ).responseString { request, response, result ->
                     val (data, error) = result
@@ -84,7 +88,7 @@ class SearchActivity : AppCompatActivity() {
                             val musicItem = musicItems.getJSONObject(i)
                             val snippet = musicItem.getJSONObject("snippet")
                             val data = SearchData(
-                                    musicItem.getJSONObject("id").optString("videoId", ""),
+                                    musicItem.getJSONObject("id").optString("playlistId", ""),
                                     snippet.optString("title", ""),
                                     snippet.optString("description", ""),
                                     getThumb(snippet),
@@ -97,18 +101,14 @@ class SearchActivity : AppCompatActivity() {
                         DialogUtil.hideProgressDialog()
                     } else { //재생목록 로딩 실패
                         DialogUtil.hideProgressDialog()
-                        failDialog()
+                        failDialog(this, title = "검색 실패", content = "검색 중 오류가 발생하였습니다.\n다시 시도해 주세요.")
                     }
                 }
             } else { //영상 로딩 실패
                 DialogUtil.hideProgressDialog()
-                failDialog()
+                failDialog(this, title = "검색 실패", content = "검색 중 오류가 발생하였습니다.\n다시 시도해 주세요.")
             }
         }
-    }
-
-    fun failDialog(){
-        DialogUtil.showDialog(this, "검색 실패", "검색 중 오류가 발생하였습니다.\n다시 시도해 주세요.", DialogUtil.Type.POS)
     }
 
     @Throws(JSONException::class)
