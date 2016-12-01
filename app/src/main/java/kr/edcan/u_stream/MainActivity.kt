@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         toolbarSearch.onClick { startActivity<SearchActivity>() }
+        mainTabs.forEachIndexed { i, it -> it.onClick { mainPager.setCurrentItem(i, true) } }
     }
 
     override fun onResume() {
