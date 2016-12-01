@@ -1,6 +1,7 @@
 package kr.edcan.u_stream
 
 import android.content.Context
+import android.databinding.ObservableArrayList
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
@@ -22,13 +23,12 @@ import org.jetbrains.anko.onClick
 import org.json.JSONException
 import org.json.JSONObject
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
-import java.util.*
 import kotlin.properties.Delegates
 
 class SearchActivity : AppCompatActivity() {
 
-    var searchMusics = ArrayList<SearchData>()
-    var searchLists = ArrayList<SearchData>()
+    var searchMusics = ObservableArrayList<SearchData>()
+    var searchLists = ObservableArrayList<SearchData>()
     var searchResultAdapter by Delegates.notNull<SearchResultPagerAdapter>()
 
     override fun onCreate(savedInstanceState: Bundle?) {

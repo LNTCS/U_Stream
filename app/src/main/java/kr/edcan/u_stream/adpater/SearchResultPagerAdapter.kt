@@ -1,5 +1,6 @@
 package kr.edcan.u_stream.adpater
 
+import android.databinding.ObservableArrayList
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
@@ -11,11 +12,11 @@ import kr.edcan.u_stream.model.SearchData
 /**
  * Created by LNTCS on 2016-03-11.
  */
-class SearchResultPagerAdapter(internal var mContext: android.content.Context, musicData: java.util.ArrayList<kr.edcan.u_stream.model.SearchData>, listData: java.util.ArrayList<kr.edcan.u_stream.model.SearchData>) : android.support.v4.view.PagerAdapter() {
+class SearchResultPagerAdapter(internal var mContext: android.content.Context, musicData: ObservableArrayList<kr.edcan.u_stream.model.SearchData>, listData: ObservableArrayList<kr.edcan.u_stream.model.SearchData>) : android.support.v4.view.PagerAdapter() {
 
     internal var titles = arrayOf("음악", "재생목록")
-    internal var musicObject = java.util.ArrayList<kr.edcan.u_stream.model.SearchData>()
-    internal var listObject = java.util.ArrayList<kr.edcan.u_stream.model.SearchData>()
+    internal var musicObject = ObservableArrayList<kr.edcan.u_stream.model.SearchData>()
+    internal var listObject = ObservableArrayList<kr.edcan.u_stream.model.SearchData>()
 
     internal var searchResultMusicAdapter: LastAdapter
     internal var searchResultListAdapter: LastAdapter
@@ -64,7 +65,7 @@ class SearchResultPagerAdapter(internal var mContext: android.content.Context, m
 
     override fun notifyDataSetChanged() {
         super.notifyDataSetChanged()
-        searchResultMusicAdapter.notifyDataSetChanged()
-        searchResultListAdapter.notifyDataSetChanged()
+//        searchResultMusicAdapter.notifyDataSetChanged()
+//        searchResultListAdapter.notifyDataSetChanged()
     }
 }
