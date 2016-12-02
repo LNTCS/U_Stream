@@ -13,6 +13,7 @@ import kr.edcan.u_stream.Application.Companion.KEY_LIST
 import kr.edcan.u_stream.Application.Companion.YOUTUBE_BASE_URL
 import kr.edcan.u_stream.Application.Companion.realm
 import kr.edcan.u_stream.R
+import kr.edcan.u_stream.adpater.MainPagerAdapter
 import kr.edcan.u_stream.adpater.PlayListSpinnerAdapter
 import kr.edcan.u_stream.model.*
 import org.jetbrains.anko.find
@@ -283,7 +284,7 @@ object DialogUtil {
         DialogUtil.showDialog(mContext, title, content, DialogUtil.Type.POS)
     }
 
-    fun editPlayListDialog(mContext: Context, pData: PlaylistData) {
+    fun editPlayListDialog(mContext: Context, pData: PlaylistData, adapter: MainPagerAdapter) {
         var rmData = realm.where(RM_PlayListData::class.java).equalTo("id", pData.id).findFirst()
         val mDlg = MaterialDialog.Builder(mContext).run {
             title("재생목록 편집")
@@ -302,16 +303,18 @@ object DialogUtil {
                 val input = dialog.inputEditText!!.text.toString()
                 if (input.trim() == "") {
                     dialog.dismiss()
-                    editPlayListDialog(mContext, pData)
+                    editPlayListDialog(mContext, pData, adapter)
                 } else {
                     realm.executeTransaction {
                         rmData.title = input
+                        adapter.notifyDataSetChanged()
                     }
                 }
             }
             onNeutral { dialog, which -> //삭제
                 realm.executeTransaction {
                     rmData.deleteFromRealm()
+                    adapter.notifyDataSetChanged()
                 }
             }
         }.build()

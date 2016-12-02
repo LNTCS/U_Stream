@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.github.nitrico.lastadapter.LastAdapter
 import io.karim.MaterialTabs
-import kr.edcan.u_stream.Application.Companion.realm
+import kr.edcan.u_stream.Application
 import kr.edcan.u_stream.BR
 import kr.edcan.u_stream.PlaylistActivity
 import kr.edcan.u_stream.R
@@ -56,18 +56,10 @@ class MainPagerAdapter(internal var mContext: android.content.Context) : android
                         .map<PlaylistData, ItemPlaylistGridBinding>(R.layout.item_playlist_grid) {
                             onClick { mContext.startActivity<PlaylistActivity>("title" to binding.item.title, "id" to binding.item.id) }
                             onLongClick {
-                                DialogUtil.editPlayListDialog(mContext, binding.item)
+                                DialogUtil.editPlayListDialog(mContext, binding.item, this@MainPagerAdapter)
                             }
                         }
                         .into(recycler)
-                var results = realm.where(RM_PlayListData::class.java).findAll()
-
-                for (res in results) {
-                    var musics = realm.where(RM_MusicData::class.java).equalTo("playListId", res.id).findAll()
-                    PlaylistData(res.id, res.title, musics.size, musics[(Math.random() * musics.size).toInt()].thumbnail).let {
-                        playlists.add(it)
-                    }
-                }
             }
             2 -> {
                 v = mInflater.inflate(R.layout.content_main_analog, null)
@@ -92,5 +84,19 @@ class MainPagerAdapter(internal var mContext: android.content.Context) : android
 
     override fun notifyDataSetChanged() {
         super.notifyDataSetChanged()
+        getList()
+    }
+
+    fun getList(){
+        playlists.clear()
+
+        var results = Application.realm.where(RM_PlayListData::class.java).findAll()
+
+        for (res in results) {
+            var musics = Application.realm.where(RM_MusicData::class.java).equalTo("playListId", res.id).findAll()
+            PlaylistData(res.id, res.title, musics.size, musics[(Math.random() * musics.size).toInt()].thumbnail).let {
+                playlists.add(it)
+            }
+        }
     }
 }
