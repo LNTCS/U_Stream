@@ -57,7 +57,7 @@ class SearchActivity : AppCompatActivity() {
         DialogUtil.showProgressDialog(this)
         "/search".httpGet(
                 listOf("part" to "snippet", "key" to KEY_SEARCH,
-                        "q" to searchEdit.text.toString(), "maxResults" to 50, "type" to "video")
+                        "q" to searchEdit.text.toString(), "maxResults" to 50.toString(), "type" to "video")
         ).responseString { request, response, result ->
             val (data, error) = result
             if (error == null) {
@@ -79,7 +79,7 @@ class SearchActivity : AppCompatActivity() {
                 // 재생목록 추가 로딩
                 "/search".httpGet(
                         listOf("part" to "snippet", "key" to KEY_LIST,
-                                "q" to searchEdit.text.toString(), "maxResults" to 50, "type" to "playlist")
+                                "q" to searchEdit.text.toString(), "maxResults" to 50.toString(), "type" to "playlist")
                 ).responseString { request, response, result ->
                     val (data, error) = result
                     if (error == null) {
