@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.github.kittinunf.fuel.httpGet
+import kr.edcan.u_stream.Application.Companion.KEY_LIST
 import kr.edcan.u_stream.Application.Companion.YOUTUBE_BASE_URL
 import kr.edcan.u_stream.Application.Companion.realm
 import kr.edcan.u_stream.R
@@ -194,7 +195,7 @@ object DialogUtil {
         var musicId = musicId
 
         (YOUTUBE_BASE_URL + "/playlistItems").httpGet(
-                listOf("part" to "snippet", "maxResults" to 50, "key" to KEY_LIST, "playlistId" to id)
+                listOf("part" to "snippet", "maxResults" to 50.toString(), "key" to KEY_LIST, "playlistId" to id)
         ).responseString { request, response, result ->
             val (data, error) = result
             if (error == null) {
@@ -240,7 +241,7 @@ object DialogUtil {
     fun getNext(mContext: Context, nextPageToken: String, mList: ArrayList<RM_MusicData>, id: String, playlistId: Int, musicId: Int) {
         var musicId = musicId
         (YOUTUBE_BASE_URL + "/playlistItems").httpGet(
-                listOf("part" to "snippet", "maxResults" to 50, "key" to KEY_LIST, "playlistId" to id, "pageToken" to nextPageToken)
+                listOf("part" to "snippet", "maxResults" to 50.toString(), "key" to KEY_LIST, "playlistId" to id, "pageToken" to nextPageToken)
         ).responseString { request, response, result ->
             val (data, error) = result
             if (error == null) {
