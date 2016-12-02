@@ -17,6 +17,7 @@ import kr.edcan.u_stream.databinding.ItemPlaylistGridBinding
 import kr.edcan.u_stream.model.PlaylistData
 import kr.edcan.u_stream.model.RM_MusicData
 import kr.edcan.u_stream.model.RM_PlayListData
+import kr.edcan.u_stream.utils.DialogUtil
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 
@@ -54,6 +55,9 @@ class MainPagerAdapter(internal var mContext: android.content.Context) : android
                 playlistAdapter
                         .map<PlaylistData, ItemPlaylistGridBinding>(R.layout.item_playlist_grid) {
                             onClick { mContext.startActivity<PlaylistActivity>("title" to binding.item.title, "id" to binding.item.id) }
+                            onLongClick {
+                                DialogUtil.editPlayListDialog(mContext, binding.item)
+                            }
                         }
                         .into(recycler)
                 var results = realm.where(RM_PlayListData::class.java).findAll()

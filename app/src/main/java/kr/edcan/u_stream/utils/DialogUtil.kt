@@ -9,24 +9,21 @@ import android.widget.TextView
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.github.kittinunf.fuel.httpGet
-import kr.edcan.u_stream.Application.Companion.KEY_LIST
 import kr.edcan.u_stream.Application.Companion.YOUTUBE_BASE_URL
 import kr.edcan.u_stream.Application.Companion.realm
 import kr.edcan.u_stream.R
 import kr.edcan.u_stream.adpater.PlayListSpinnerAdapter
-import kr.edcan.u_stream.model.RM_MusicData
-import kr.edcan.u_stream.model.RM_PlayListData
-import kr.edcan.u_stream.model.SType
-import kr.edcan.u_stream.model.SearchData
+import kr.edcan.u_stream.model.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 import java.util.*
 
+
 /**
  * Created by LNTCS on 2016-11-28.
  */
-object DialogUtil{
+object DialogUtil {
 
     var mProgressDialog: MaterialDialog? = null
 
@@ -75,7 +72,7 @@ object DialogUtil{
             title("재생목록 추가")
             titleColorRes(R.color.colorPrimary)
             content("'" + data.title + "'을(를) 새로운 재생목록에 추가합니다.")
-            backgroundColorRes(R.color.colorBgLgt  )
+            backgroundColorRes(R.color.colorBgLgt)
             positiveColorRes(R.color.colorPrimary)
             positiveText("추가")
             negativeColorRes(R.color.textGray)
@@ -131,14 +128,14 @@ object DialogUtil{
         var selectListPos = 0
         val wrapInScrollView = true
         var addDlg = MaterialDialog.Builder(mContext).run {
-                title("재생목록에 추가")
-                titleColorRes(R.color.colorPrimary)
-                customView(R.layout.content_dialog_add_playlist, wrapInScrollView)
-                backgroundColorRes(R.color.colorBgLgt)
-                positiveColorRes(R.color.colorPrimary)
-                positiveText("확인")
-                negativeColorRes(R.color.textGray)
-                negativeText("취소")
+            title("재생목록에 추가")
+            titleColorRes(R.color.colorPrimary)
+            customView(R.layout.content_dialog_add_playlist, wrapInScrollView)
+            backgroundColorRes(R.color.colorBgLgt)
+            positiveColorRes(R.color.colorPrimary)
+            positiveText("확인")
+            negativeColorRes(R.color.textGray)
+            negativeText("취소")
         }.build()
         val view = addDlg.customView!!
 
@@ -161,7 +158,9 @@ object DialogUtil{
                         selectListPos = position
                     }
                 }
-                override fun onNothingSelected(parent: AdapterView<*>) {  }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                }
             }
         }
         addDlg.builder.onPositive(MaterialDialog.SingleButtonCallback { dialog, which ->
@@ -231,7 +230,7 @@ object DialogUtil{
                 }
                 hideProgressDialog()
                 mContext.toast(title + "에 " + mList.size + "곡이 추가되었습니다.")
-            }else{
+            } else {
                 hideProgressDialog()
                 failDialog(mContext, title = "분석 실패", content = "분석 중 오류가 발생하였습니다.\n다시 시도해 주세요.")
             }
@@ -270,7 +269,7 @@ object DialogUtil{
                 if (jsonObject.has("nextPageToken")) {
                     getNext(mContext, jsonObject.getString("nextPageToken"), mList, id, playlistId, musicId)
                 }
-            }else{
+            } else {
                 hideProgressDialog()
                 failDialog(mContext, title = "분석 실패", content = "분석 중 오류가 발생하였습니다.\n다시 시도해 주세요.")
             }
@@ -279,7 +278,42 @@ object DialogUtil{
 
     private fun getNumberInt(num: Number?) = num?.toInt() ?: 0
 
-    fun failDialog(mContext: Context, title: String = "", content: String = ""){
+    fun failDialog(mContext: Context, title: String = "", content: String = "") {
         DialogUtil.showDialog(mContext, title, content, DialogUtil.Type.POS)
+    }
+
+    fun editPlayListDialog(mContext: Context, pData: PlaylistData) {
+        var rmData = realm.where(RM_PlayListData::class.java).equalTo("id", pData.id).findFirst()
+        val mDlg = MaterialDialog.Builder(mContext).run {
+            title("재생목록 편집")
+            titleColorRes(R.color.colorPrimary)
+            backgroundColorRes(R.color.colorBgLgt)
+            positiveColorRes(R.color.colorPrimary)
+            positiveText("저장")
+            negativeColorRes(R.color.textGray)
+            negativeText("취소")
+            neutralColorRes(R.color.colorPrimary)
+            neutralText("삭제")
+            inputType(InputType.TYPE_CLASS_TEXT)
+            input("제목을 입력해주세요.", pData.title) { dialog, input -> }
+            widgetColorRes(R.color.colorPrimary)
+            onPositive { dialog, which -> //확인
+                val input = dialog.inputEditText!!.text.toString()
+                if (input.trim() == "") {
+                    dialog.dismiss()
+                    editPlayListDialog(mContext, pData)
+                } else {
+                    realm.executeTransaction {
+                        rmData.title = input
+                    }
+                }
+            }
+            onNeutral { dialog, which -> //삭제
+                realm.executeTransaction {
+                    rmData.deleteFromRealm()
+                }
+            }
+        }.build()
+        mDlg.show()
     }
 }
