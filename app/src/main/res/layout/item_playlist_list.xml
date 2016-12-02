@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:cardview="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="kr.edcan.u_stream.model.MusicData"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/playlist_height"
+        android:minHeight="@dimen/playlist_height"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="92dp"
+            android:layout_height="68dp"
+            android:layout_gravity="center_vertical"
+            android:padding="-4dp"
+            cardview:cardBackgroundColor="#00000000"
+            cardview:cardCornerRadius="4dp"
+            cardview:cardElevation="0dp"
+            cardview:cardPreventCornerOverlap="false"
+            cardview:cardUseCompatPadding="true">
+
+            <ImageView
+                android:id="@+id/playlistThumb"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{item.thumbUri}"/>
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/playlistTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lineSpacingExtra="4px"
+                android:maxLines="2"
+                android:text="@{item.title}"
+                android:textColor="@color/textWhite"
+                android:textSize="@dimen/default_text"/>
+
+            <TextView
+                android:id="@+id/playlist_list_uploader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{item.uploader}"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/small_text"/>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/playlistDelete"
+            android:layout_width="@dimen/tab_height"
+            android:layout_height="@dimen/tab_height"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_clear"/>
+
+        <ImageButton
+            android:id="@+id/playlistPlay"
+            android:layout_width="@dimen/tab_height"
+            android:layout_height="@dimen/tab_height"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_search_play"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="@dimen/main_padding"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</layout>

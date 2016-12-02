@@ -21,6 +21,8 @@
         </activity>
         <activity android:name=".SearchActivity">
         </activity>
+        <activity android:name=".PlaylistActivity">
+        </activity>
     </application>
 
 </manifest>

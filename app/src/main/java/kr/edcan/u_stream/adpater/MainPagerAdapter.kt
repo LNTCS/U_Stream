@@ -11,11 +11,15 @@ import com.github.nitrico.lastadapter.LastAdapter
 import io.karim.MaterialTabs
 import kr.edcan.u_stream.Application.Companion.realm
 import kr.edcan.u_stream.BR
+import kr.edcan.u_stream.PlaylistActivity
 import kr.edcan.u_stream.R
+import kr.edcan.u_stream.databinding.ItemPlaylistGridBinding
 import kr.edcan.u_stream.model.PlaylistData
 import kr.edcan.u_stream.model.RM_MusicData
 import kr.edcan.u_stream.model.RM_PlayListData
 import org.jetbrains.anko.find
+import org.jetbrains.anko.startActivity
+
 
 /**
  * Created by LNTCS on 2016-03-11.
@@ -48,11 +52,13 @@ class MainPagerAdapter(internal var mContext: android.content.Context) : android
                     recycler.layoutManager = it
                 }
                 playlistAdapter
-                        .map<PlaylistData>(R.layout.item_playlist_grid)
+                        .map<PlaylistData, ItemPlaylistGridBinding>(R.layout.item_playlist_grid) {
+                            onClick { mContext.startActivity<PlaylistActivity>("title" to binding.item.title, "id" to binding.item.id) }
+                        }
                         .into(recycler)
                 var results = realm.where(RM_PlayListData::class.java).findAll()
 
-                for(res in results){
+                for (res in results) {
                     var musics = realm.where(RM_MusicData::class.java).equalTo("playListId", res.id).findAll()
                     PlaylistData(res.id, res.title, musics.size, musics[(Math.random() * musics.size).toInt()].thumbnail).let {
                         playlists.add(it)
