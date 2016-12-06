@@ -314,6 +314,9 @@ object DialogUtil {
             }
             onNeutral { dialog, which -> //삭제
                 realm.executeTransaction {
+                    for(music in realm.where(RM_MusicData::class.java).equalTo("playListId", rmData.id).findAll()){
+                        music.deleteFromRealm()
+                    }
                     rmData.deleteFromRealm()
                     adapter.notifyDataSetChanged()
                 }
