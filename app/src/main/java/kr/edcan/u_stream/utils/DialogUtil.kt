@@ -1,6 +1,7 @@
 package kr.edcan.u_stream.utils
 
 import android.content.Context
+import android.databinding.ObservableArrayList
 import android.text.InputType
 import android.view.View
 import android.widget.AdapterView
@@ -316,6 +317,26 @@ object DialogUtil {
                     rmData.deleteFromRealm()
                     adapter.notifyDataSetChanged()
                 }
+            }
+        }.build()
+        mDlg.show()
+    }
+
+    fun  deletePlayListDialog(mContext: Context, data: MusicData, playlistTitle: String, adapter: ObservableArrayList<MusicData>) {
+        val mDlg = MaterialDialog.Builder(mContext).run{
+            title("곡 제거")
+            titleColorRes(R.color.colorPrimary)
+            content("'" + data.title + "'을(를) '" + playlistTitle + "'에서 제거합니다.")
+            backgroundColorRes(R.color.colorBgLgt)
+            positiveColorRes(R.color.colorPrimary)
+            positiveText("확인")
+            negativeColorRes(R.color.textGray)
+            negativeText("취소")
+            widgetColorRes(R.color.colorPrimary)
+            onPositive { dialog, which ->
+                realm.executeTransaction { realm -> realm.where(RM_MusicData::class.java).equalTo("id", data.id).findFirst().deleteFromRealm() }
+                adapter.remove(data)
+                //TODO 삭제후 현재곡일경우 다음곡으로
             }
         }.build()
         mDlg.show()
