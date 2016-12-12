@@ -14,7 +14,9 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.IBinder
 import android.support.v4.app.NotificationCompat
+import android.util.Log
 import android.util.SparseArray
+import android.widget.ImageView
 import android.widget.RemoteViews
 import android.widget.TextView
 import at.huber.youtubeExtractor.YouTubeUriExtractor
@@ -31,15 +33,20 @@ import kotlin.properties.Delegates
  */
 class PlayService : Service() {
 
-    val NOTIFICATION_NUM = 3939
 
     companion object {
+        val NOTIFICATION_NUM = 3939
         val ACTION_START = "kr.edcan.u_stream.action.start"
         val ACTION_RESUME = "kr.edcan.u_stream.action.resume"
         val ACTION_PAUSE = "kr.edcan.u_stream.action.pause"
 
         var titleViews = ObservableArrayList<TextView>()
         var uploaderViews = ObservableArrayList<TextView>()
+        var btmPlaying: ImageView? = null
+        var playingList = ArrayList<Int>()
+        var mediaPlayer: MediaPlayer = MediaPlayer().apply {
+            setAudioStreamType(AudioManager.STREAM_MUSIC)
+        }
 
         var nowPlaying by Delegates.observable(MusicData()) {
             prop, old, new ->
@@ -50,31 +57,47 @@ class PlayService : Service() {
             uploaderViews.forEach { it.text = uploader }
         }
 
-        var playingList = ArrayList<Int>()
-
-        fun addTitleView(view: TextView){
-            if(view !in titleViews) titleViews.add(view)
+        fun addTitleView(view: TextView) {
+            if (view !in titleViews) titleViews.add(view)
             view.text = nowPlaying.title
         }
-        fun addUploaderView(view: TextView){
-            if(view !in uploaderViews) uploaderViews.add(view)
+
+        fun addUploaderView(view: TextView) {
+            if (view !in uploaderViews) uploaderViews.add(view)
             view.text = nowPlaying.uploader
         }
+
+        fun playORpause() {
+            if (mediaPlayer.isPlaying)
+                mediaPlayer.pause()
+            else
+                mediaPlayer.start()
+            updateView()
+        }
+
+        fun updateView() {
+            notification?.let {
+                it.contentView?.let {
+                    it.setTextViewText(R.id.notifyTitle, nowPlaying.title)
+                    it.setTextViewText(R.id.notifySubtitle, nowPlaying.uploader)
+                    it.setImageViewResource(R.id.notifyPlay, if (mediaPlayer.isPlaying) R.drawable.selector_notify_pause else R.drawable.selector_notify_play)
+                    val notificationTarget = NotificationTarget(mContext, it, R.id.notifyThumb, notification, NOTIFICATION_NUM)
+                    Glide.with(mContext).load(nowPlaying.thumbUri).asBitmap().placeholder(R.drawable.ic_notify_album).into(notificationTarget)
+                }
+            }
+            btmPlaying?.setImageResource(if (mediaPlayer.isPlaying) R.drawable.ic_btm_pause else R.drawable.ic_btm_play)
+        }
+
+        var beforeEvent: Long = 0
+        var playable = true
+        var mContext by Delegates.notNull<Context>()
+        var notification: Notification? = null
+        var builder by Delegates.notNull<NotificationCompat.Builder>()
+        var manager by Delegates.notNull<NotificationManager>()
+        var ytEx: YouTubeUriExtractor? = null
     }
 
-    var beforeEvent: Long = 0
-    var playable = true
-    var mediaPlayer: MediaPlayer
-    var mContext: Context
-    var notification by Delegates.notNull<Notification>()
-    var builder by Delegates.notNull<NotificationCompat.Builder>()
-    var manager by Delegates.notNull<NotificationManager>()
-    var ytEx: YouTubeUriExtractor? = null
-
     init {
-        mediaPlayer = MediaPlayer().apply {
-            setAudioStreamType(AudioManager.STREAM_MUSIC)
-        }
         mContext = this
     }
 
@@ -99,10 +122,10 @@ class PlayService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if(intent == null) {
+        if (intent == null) {
             return super.onStartCommand(intent, flags, startId)
         }
-        when(intent.action){
+        when (intent.action) {
             ACTION_START -> {
                 mediaPlayer.reset()
                 mediaPlayer.setOnPreparedListener {
@@ -110,34 +133,29 @@ class PlayService : Service() {
                     mediaPlayer.start()
                     startNotification()
                 }
-
-                nowPlaying?.let {
-                    play()
-                }
+                play()
             }
             ACTION_PAUSE -> {
                 stopNotification()
                 mediaPlayer.pause()
             }
             ACTION_RESUME -> {
-                nowPlaying?.let {
-                    startNotification()
-                    mediaPlayer.start()
-                }
+                startNotification()
+                mediaPlayer.start()
             }
         }
         return super.onStartCommand(intent, flags, startId)
     }
 
 
-    fun startNotification(){
+    fun startNotification() {
         builder.setContentTitle("재생중")
         notification = builder.build()
         updateView()
         this.startForeground(NOTIFICATION_NUM, notification)
     }
 
-    fun stopNotification(){
+    fun stopNotification() {
         this.stopForeground(false)
         builder.setContentTitle("멈춰라 얍!")
         notification = builder.build()
@@ -153,7 +171,7 @@ class PlayService : Service() {
         return null
     }
 
-    fun play(){
+    fun play() {
         playable = false
         ytEx = object : YouTubeUriExtractor(mContext) {
             override fun onUrisAvailable(videoId: String, videoTitle: String, ytFiles: SparseArray<YtFile>?) {
@@ -179,17 +197,6 @@ class PlayService : Service() {
         ytEx!!.execute("https://www.youtube.com/watch?v=${nowPlaying!!.videoId}")
     }
 
-    fun updateView(){
-        val rv = notification.contentView
-        rv?.let{
-            rv.setTextViewText(R.id.notifyTitle, nowPlaying.title)
-            rv.setTextViewText(R.id.notifySubtitle, nowPlaying.uploader)
-            rv.setImageViewResource(R.id.notifyPlay, if (mediaPlayer.isPlaying) R.drawable.selector_notify_pause else R.drawable.selector_notify_play)
-            val notificationTarget = NotificationTarget(mContext, rv, R.id.notifyThumb, notification, NOTIFICATION_NUM)
-            Glide.with(mContext).load(nowPlaying.thumbUri).asBitmap().placeholder(R.drawable.ic_notify_album).into(notificationTarget)
-        }
-    }
-
     fun setIntent(views: RemoteViews) {
         val playIntent = Intent("kr.edcan.ustream.control.play")
         val pendingIntent = PendingIntent.getBroadcast(mContext, 0, playIntent,
@@ -201,13 +208,9 @@ class PlayService : Service() {
             override fun onReceive(context: Context, intent: Intent) {
                 val currentEvent = System.currentTimeMillis()
                 if (beforeEvent < currentEvent - 100 && playable) {
-                    if (mediaPlayer.isPlaying)
-                        mediaPlayer.pause()
-                    else
-                        mediaPlayer.start()
+                    playORpause()
                 }
                 beforeEvent = currentEvent
-                updateView()
             }
         }, intentFilter)
 
@@ -227,5 +230,4 @@ class PlayService : Service() {
             }
         }, intentFilterF)
     }
-
 }

@@ -28,6 +28,11 @@ class MainActivity : AppCompatActivity() {
 
         mainTabs = arrayListOf(tabSpace, tabPlaylist, tabAnalog)
 
+        PlayService.btmPlaying = playingBtn
+        playingBtn.onClick {
+            PlayService.playORpause()
+        }
+
         pAdapter = MainPagerAdapter(this)
         mainPager.run {
             adapter = pAdapter
@@ -56,6 +61,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        playingBtn.setImageResource(if (PlayService.mediaPlayer.isPlaying) R.drawable.ic_btm_pause else R.drawable.ic_btm_play)
         pAdapter?.run { notifyDataSetChanged() }
     }
 
