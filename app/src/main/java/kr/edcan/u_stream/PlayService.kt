@@ -133,7 +133,7 @@ class PlayService : Service() {
     fun startNotification(){
         builder.setContentTitle("재생중")
         notification = builder.build()
-        updateNotification()
+        updateView()
         this.startForeground(NOTIFICATION_NUM, notification)
     }
 
@@ -141,7 +141,7 @@ class PlayService : Service() {
         this.stopForeground(false)
         builder.setContentTitle("멈춰라 얍!")
         notification = builder.build()
-        updateNotification()
+        updateView()
         manager.notify(NOTIFICATION_NUM, notification)
     }
 
@@ -179,7 +179,7 @@ class PlayService : Service() {
         ytEx!!.execute("https://www.youtube.com/watch?v=${nowPlaying!!.videoId}")
     }
 
-    fun updateNotification(){
+    fun updateView(){
         val rv = notification.contentView
         rv?.let{
             rv.setTextViewText(R.id.notifyTitle, nowPlaying.title)
@@ -207,7 +207,7 @@ class PlayService : Service() {
                         mediaPlayer.start()
                 }
                 beforeEvent = currentEvent
-                updateNotification()
+                updateView()
             }
         }, intentFilter)
 
