@@ -37,6 +37,11 @@ class MusicData{
         this.thumbUri = sData.thumbnail
     }
 
+    constructor(){
+        this.title = "μ'Stream"
+        this.uploader = "by EDCAN"
+    }
+
     constructor(mData: RM_MusicData){
         this.id = mData.id
         this.title = mData.title

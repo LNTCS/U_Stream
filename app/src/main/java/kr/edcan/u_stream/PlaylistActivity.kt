@@ -38,6 +38,11 @@ class PlaylistActivity : AppCompatActivity() {
                         binding.playlistDelete.onClick {
                             DialogUtil.deletePlayListDialog(this@PlaylistActivity, binding.item, title, musicList)
                         }
+                        binding.playlistPlay.onClick {
+                            PlayService.nowPlaying = binding.item
+                            PlayUtil.setAction(this@PlaylistActivity, PlayService.ACTION_START)
+                            startService(PlayUtil.getService(this@PlaylistActivity))
+                        }
                     }
                 }
                 .into(playlistRecycler)
