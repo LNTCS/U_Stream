@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:orientation="horizontal"
+    android:weightSum="1">
+
+    <ImageView
+        android:id="@+id/notifyThumb"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_notify_album"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/notifyTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/small_margin"
+            android:singleLine="true"
+            android:text="노래이르으으음"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/large_text"/>
+
+        <TextView
+            android:id="@+id/notifySubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="업로더어어어"
+            android:textColor="@color/textLgtGray"
+            android:textSize="@dimen/sub_text"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/notifyPlay"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
+        android:src="@drawable/selector_notify_play"/>
+
+    <ImageView
+        android:id="@+id/notifyNext"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:clickable="true"
+        android:src="@drawable/selector_notify_next"/>
+</LinearLayout>
