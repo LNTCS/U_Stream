@@ -49,6 +49,9 @@ class MainActivity : AppCompatActivity() {
 
         toolbarSearch.onClick { startActivity<SearchActivity>() }
         mainTabs.forEachIndexed { i, it -> it.onClick { mainPager.setCurrentItem(i, true) } }
+
+        PlayService.addTitleView(playingTitle)
+        PlayService.addUploaderView(playingSubtitle)
     }
 
     override fun onResume() {
