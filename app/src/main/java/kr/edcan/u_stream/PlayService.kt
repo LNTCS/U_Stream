@@ -14,7 +14,6 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.IBinder
 import android.support.v4.app.NotificationCompat
-import android.util.Log
 import android.util.SparseArray
 import android.widget.ImageView
 import android.widget.RemoteViews
@@ -75,9 +74,9 @@ class PlayService : Service() {
             updateView()
         }
 
-        fun updateView() {
+         fun updateView() {
             notification?.let {
-                it.contentView?.let {
+                remoteView?.let {
                     it.setTextViewText(R.id.notifyTitle, nowPlaying.title)
                     it.setTextViewText(R.id.notifySubtitle, nowPlaying.uploader)
                     it.setImageViewResource(R.id.notifyPlay, if (mediaPlayer.isPlaying) R.drawable.selector_notify_pause else R.drawable.selector_notify_play)
@@ -92,6 +91,7 @@ class PlayService : Service() {
         var playable = true
         var mContext by Delegates.notNull<Context>()
         var notification: Notification? = null
+        var remoteView: RemoteViews? = null
         var builder by Delegates.notNull<NotificationCompat.Builder>()
         var manager by Delegates.notNull<NotificationManager>()
         var ytEx: YouTubeUriExtractor? = null
@@ -102,13 +102,13 @@ class PlayService : Service() {
     }
 
     override fun onCreate() {
-        val view = RemoteViews(mContext.packageName, R.layout.content_notification)
-        view.setImageViewResource(R.id.notifyPlay, if (mediaPlayer.isPlaying) R.drawable.selector_notify_pause else R.drawable.selector_notify_play)
+        remoteView = RemoteViews(mContext.packageName, R.layout.content_notification)
+        remoteView!!.setImageViewResource(R.id.notifyPlay, if (mediaPlayer.isPlaying) R.drawable.selector_notify_pause else R.drawable.selector_notify_play)
 
         builder = NotificationCompat.Builder(this)
                 .setContentText("μ'Stream")
                 .setSmallIcon(R.drawable.ic_noti)
-                .setCustomContentView(view)
+                .setCustomContentView(remoteView)
 
         notification = builder.build()
         manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -117,7 +117,7 @@ class PlayService : Service() {
 //        i.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
 //        val pi = PendingIntent.getActivity(mContext, 0, i, PendingIntent.FLAG_UPDATE_CURRENT)
 //        notification.contentIntent = pi
-        setIntent(view)
+        setIntent(remoteView!!)
         super.onCreate()
     }
 
