@@ -46,6 +46,8 @@ class PlayService : Service() {
         var titleViews = ObservableArrayList<TextView>()
         var uploaderViews = ObservableArrayList<TextView>()
         var btmPlaying: ImageView? = null
+        var playingThumbnail: ImageView? = null
+
         var playingList = ArrayList<Int>()
         var isInitial = false
         var mediaPlayer: MediaPlayer = MediaPlayer().apply {
@@ -58,6 +60,7 @@ class PlayService : Service() {
             setOnPreparedListener {
                 playable = true
                 updateView()
+                PlayerActivity.setMaxProgress()
 //                updateTimePrg()
 //                updateState(Pair(nowPlaying.title, nowPlaying.uploader))
             }
@@ -113,6 +116,7 @@ class PlayService : Service() {
                     Glide.with(mContext).load(nowPlaying.thumbUri).asBitmap().placeholder(R.drawable.ic_notify_album).into(notificationTarget)
                 }
             }
+            playingThumbnail?.let { Glide.with(mContext).load(nowPlaying.thumbUri).asBitmap().into(it) }
             btmPlaying?.setImageResource(if (mediaPlayer.isPlaying) R.drawable.ic_btm_pause else R.drawable.ic_btm_play)
         }
 

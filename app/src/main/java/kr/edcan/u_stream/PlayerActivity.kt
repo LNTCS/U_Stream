@@ -9,6 +9,7 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.widget.SeekBar
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.tramsun.libs.prefcompat.Pref
 import kotlinx.android.synthetic.main.activity_player.*
@@ -32,11 +33,19 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
 
     private fun initLayout() {
         playerSeekBar = playerSeek
+        totalTimeTv = playerTotal
+
+        setCurrentProgress(playerSeek)
         primarySeekBarProgressUpdater(playerSeek)
+        setMaxProgress()
+
         PlayService.addTitleView(playerTitle)
         PlayService.addUploaderView(playerSubtitle)
-        toolbarBack.onClick { onBackPressed() }
         Glide.with(this).load(R.drawable.bg_default_album).into(playerThumbnail)
+        PlayService.playingThumbnail = playerThumbnail
+        PlayService.updateView()
+
+        toolbarBack.onClick { onBackPressed() }
         playerRepeatType.setImageResource(types[Pref.getInt("repeatType", 0)])
     }
 
@@ -67,8 +76,6 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
             setOnSeekArcChangeListener(this@PlayerActivity)
             setSecondaryProgress(0)
         }
-        playerSeek.setMax(PlayService.mediaPlayer.duration / 1000)
-        playerTotal.text = PlayUtil.parseTime(PlayService.mediaPlayer.duration.toLong())
     }
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
@@ -100,8 +107,15 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
 
     companion object {
         var playerSeekBar : SeekArc? =  null
+        var totalTimeTv : TextView? =  null
         @JvmStatic
         fun primarySeekBarProgressUpdater(seekBar: SeekArc?) {
+            setCurrentProgress(seekBar)
+            val notification = Runnable { primarySeekBarProgressUpdater(seekBar) }
+            Handler().postDelayed(notification, 1000)
+        }
+
+        fun setCurrentProgress(seekBar: SeekArc?){
             if(seekBar != null) {
                 if (!seekBar.isTouching) {
                     val progress = (PlayService.mediaPlayer.currentPosition.toFloat() / 1000).toInt()
@@ -113,8 +127,11 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
                     seekBar.setSecondaryProgress(0)
                 }
             }
-            val notification = Runnable { primarySeekBarProgressUpdater(seekBar) }
-            Handler().postDelayed(notification, 1000)
+        }
+
+        fun setMaxProgress(){
+            playerSeekBar?.setMax(PlayService.mediaPlayer.duration / 1000)
+            totalTimeTv?.text = PlayUtil.parseTime(PlayService.mediaPlayer.duration.toLong())
         }
     }
 }
