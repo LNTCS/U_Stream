@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="업로더어어어"
-            android:textColor="@color/textLgtGray"
+            android:textColor="@color/textGray"
             android:textSize="@dimen/sub_text"/>
     </LinearLayout>
 
