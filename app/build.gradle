@@ -50,6 +50,8 @@ dependencies {
     compile 'com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
     compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.tramsun.libs:prefcompat:0.9.2'
     kapt 'com.android.databinding:compiler:2.2.1'
 }
 repositories {

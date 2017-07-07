@@ -23,6 +23,8 @@ import at.huber.youtubeExtractor.YouTubeExtractor
 import at.huber.youtubeExtractor.YtFile
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.NotificationTarget
+import com.google.gson.Gson
+import com.tramsun.libs.prefcompat.Pref
 import kr.edcan.u_stream.model.MusicData
 import org.jetbrains.anko.toast
 import java.util.*
@@ -36,6 +38,7 @@ class PlayService : Service() {
 
     companion object {
         val NOTIFICATION_NUM = 3939
+        val ACTION_INIT = "kr.edcan.u_stream.action.init"
         val ACTION_START = "kr.edcan.u_stream.action.start"
         val ACTION_RESUME = "kr.edcan.u_stream.action.resume"
         val ACTION_PAUSE = "kr.edcan.u_stream.action.pause"
@@ -44,6 +47,7 @@ class PlayService : Service() {
         var uploaderViews = ObservableArrayList<TextView>()
         var btmPlaying: ImageView? = null
         var playingList = ArrayList<Int>()
+        var isInitial = false
         var mediaPlayer: MediaPlayer = MediaPlayer().apply {
             setAudioStreamType(AudioManager.STREAM_MUSIC)
         }
@@ -55,6 +59,7 @@ class PlayService : Service() {
 
             titleViews.forEach { it.text = title }
             uploaderViews.forEach { it.text = uploader }
+            Pref.putString("latestPlay", Gson().toJson(new))
         }
 
         fun addTitleView(view: TextView) {
@@ -68,7 +73,10 @@ class PlayService : Service() {
         }
 
         fun playORpause() {
-            if (mediaPlayer.isPlaying) {
+            if (isInitial) {
+                PlayUtil.startService(mContext, PlayService.ACTION_START)
+                isInitial = false
+            } else if (mediaPlayer.isPlaying) {
                 mediaPlayer.pause()
                 PlayUtil.startService(mContext, PlayService.ACTION_PAUSE)
             } else {
@@ -125,6 +133,10 @@ class PlayService : Service() {
             return super.onStartCommand(intent, flags, startId)
         }
         when (intent.action) {
+            ACTION_INIT -> {
+                isInitial = true
+                stopNotification()
+            }
             ACTION_START -> {
                 mediaPlayer.reset()
                 mediaPlayer.setOnPreparedListener {

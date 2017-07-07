@@ -7,9 +7,12 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.google.gson.Gson
+import com.tramsun.libs.prefcompat.Pref
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import kr.edcan.u_stream.adpater.MainPagerAdapter
+import kr.edcan.u_stream.model.MusicData
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.textColor
@@ -47,18 +50,25 @@ class MainActivity : AppCompatActivity() {
                     mainTabs[Math.round(position + positionOffset)].textColor =
                             ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)
                 }
-                override fun onPageScrollStateChanged(state: Int) { }
-                override fun onPageSelected(position: Int) { }
+
+                override fun onPageScrollStateChanged(state: Int) {}
+                override fun onPageSelected(position: Int) {}
             })
         }
-
-        toolbarSearch.onClick { startActivity<SearchActivity>() }
-        mainTabs.forEachIndexed { i, it -> it.onClick { mainPager.setCurrentItem(i, true) } }
-
         PlayService.addTitleView(playingTitle)
         PlayService.addUploaderView(playingSubtitle)
 
+        if(PlayService.nowPlaying.isNull) {
+            val latest = Gson().fromJson<MusicData>(Pref.getString("latestPlay"), MusicData::class.java)
+            if (latest != null) {
+                PlayService.nowPlaying = latest
+                PlayUtil.startService(this, PlayService.ACTION_INIT)
+            }
+        }
+
         mainBtmTab.onClick { startActivity<PlayerActivity>() }
+        toolbarSearch.onClick { startActivity<SearchActivity>() }
+        mainTabs.forEachIndexed { i, it -> it.onClick { mainPager.setCurrentItem(i, true) } }
     }
 
     override fun onResume() {

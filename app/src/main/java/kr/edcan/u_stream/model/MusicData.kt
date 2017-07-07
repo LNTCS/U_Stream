@@ -18,6 +18,8 @@ class MusicData{
     var uploader = ""
     var description = ""
     var thumbUri = ""
+    var isNull = true
+        get() = title == "μ'Stream"
 
     constructor(id: Int,  title: String,  videoId: String,  playListId: Int,  uploader: String,  description: String,  thumbUri: String){
         this.id = id
