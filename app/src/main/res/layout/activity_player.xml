@@ -96,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textColor="@color/prgGray"
+                android:textColor="@color/prgLgtGray"
                 android:textSize="@dimen/small_text" />
         </LinearLayout>
     </RelativeLayout>
@@ -205,7 +205,7 @@
                 android:layout_height="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/main_padding"
                 android:layout_marginRight="@dimen/main_padding"
-                android:background="@color/prgGray" />
+                android:background="@color/prgLgtGray" />
 
             <ImageButton
                 android:id="@+id/playerEq"

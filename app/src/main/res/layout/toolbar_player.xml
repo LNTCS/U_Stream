@@ -11,7 +11,7 @@
     app:layout_scrollFlags="scroll|enterAlways|snap">
 
     <TextView
-        android:id="@+id/toolbarTiitle"
+        android:id="@+id/toolbarTitle"
         android:text="Title"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/label_text"

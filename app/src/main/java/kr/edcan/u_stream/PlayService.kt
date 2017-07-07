@@ -50,7 +50,24 @@ class PlayService : Service() {
         var isInitial = false
         var mediaPlayer: MediaPlayer = MediaPlayer().apply {
             setAudioStreamType(AudioManager.STREAM_MUSIC)
+            setOnBufferingUpdateListener { mp, per ->
+                var percent = per
+                if (percent == 0) percent = 1
+                buffer = percent
+            }
+            setOnPreparedListener {
+                playable = true
+                updateView()
+//                updateTimePrg()
+//                updateState(Pair(nowPlaying.title, nowPlaying.uploader))
+            }
+            setOnCompletionListener {
+//                updateState(Pair(nowPlaying.title, nowPlaying.uploader))
+//                PlayUtil.playOther(mContext, true) // 한곡재생이라면 여기서 다시 프로그레스를 0으로
+            }
         }
+
+        var buffer = 0
 
         var nowPlaying by Delegates.observable(MusicData()) {
             prop, old, new ->
@@ -125,6 +142,7 @@ class PlayService : Service() {
         notification = builder.build()
         manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         setIntent(remoteView!!)
+        PlayerActivity.primarySeekBarProgressUpdater(PlayerActivity.playerSeekBar)
         super.onCreate()
     }
 
