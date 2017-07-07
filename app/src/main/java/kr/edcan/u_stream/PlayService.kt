@@ -70,12 +70,10 @@ class PlayService : Service() {
         fun playORpause() {
             if (mediaPlayer.isPlaying) {
                 mediaPlayer.pause()
-                PlayUtil.setAction(mContext, PlayService.ACTION_PAUSE)
-                mContext.startService(PlayUtil.getService(mContext))
+                PlayUtil.startService(mContext, PlayService.ACTION_PAUSE)
             } else {
                 mediaPlayer.start()
-                PlayUtil.setAction(mContext, PlayService.ACTION_RESUME)
-                mContext.startService(PlayUtil.getService(mContext))
+                PlayUtil.startService(mContext, PlayService.ACTION_RESUME)
             }
             updateView()
         }
@@ -118,11 +116,6 @@ class PlayService : Service() {
 
         notification = builder.build()
         manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//        val i = Intent(mContext, PlayerActivity::class.java)
-//        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//        i.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-//        val pi = PendingIntent.getActivity(mContext, 0, i, PendingIntent.FLAG_UPDATE_CURRENT)
-//        notification.contentIntent = pi
         setIntent(remoteView!!)
         super.onCreate()
     }

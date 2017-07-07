@@ -40,8 +40,7 @@ class PlaylistActivity : AppCompatActivity() {
                         }
                         binding.playlistPlay.onClick {
                             PlayService.nowPlaying = binding.item
-                            PlayUtil.setAction(this@PlaylistActivity, PlayService.ACTION_START)
-                            startService(PlayUtil.getService(this@PlaylistActivity))
+                            PlayUtil.startService(this@PlaylistActivity, PlayService.ACTION_START)
                         }
                     }
                 }

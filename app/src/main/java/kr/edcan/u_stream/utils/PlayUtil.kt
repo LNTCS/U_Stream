@@ -24,4 +24,9 @@ object PlayUtil {
         }
         playService!!.action = action
     }
+
+    fun startService(mContext: Context, action: String) {
+        PlayUtil.setAction(mContext, action)
+        mContext.startService(PlayUtil.getService(mContext))
+    }
 }
