@@ -57,6 +57,8 @@ class MainActivity : AppCompatActivity() {
 
         PlayService.addTitleView(playingTitle)
         PlayService.addUploaderView(playingSubtitle)
+
+        mainBtmTab.onClick { startActivity<PlayerActivity>() }
     }
 
     override fun onResume() {

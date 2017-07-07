@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:seekarc="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:weightSum="10">
+
+    <include layout="@layout/toolbar_player" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2" />
+
+    <TextView
+        android:id="@+id/playerTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxLines="1"
+        android:paddingLeft="@dimen/element_margin"
+        android:paddingRight="@dimen/element_margin"
+        android:paddingTop="@dimen/main_padding"
+        android:text="μ'Stream"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/label_text" />
+
+    <TextView
+        android:id="@+id/playerSubtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_weight="0.4"
+        android:gravity="center_horizontal|top"
+        android:maxLines="1"
+        android:paddingLeft="@dimen/actionbar_height"
+        android:paddingRight="@dimen/actionbar_height"
+        android:text="by EDCAN"
+        android:textColor="@color/textGray"
+        android:textSize="@dimen/default_text" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="5.2">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/playerThumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_margin="26dp" />
+
+        <kr.edcan.u_stream.view.SeekArc
+            android:id="@+id/playerSeek"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:focusableInTouchMode="false"
+            android:padding="22dp"
+            seekarc:arcWidth="@dimen/small_margin"
+            seekarc:progressWidth="@dimen/small_margin"
+            seekarc:rotation="180"
+            seekarc:startAngle="30"
+            seekarc:sweepAngle="300"
+            seekarc:thumbSize="@dimen/label_text"
+            seekarc:touchInside="false" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/playerPlayed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textColor="@color/colorPrimary"
+                android:textSize="11sp" />
+
+            <Space
+                android:layout_width="26dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/playerTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textColor="@color/prgGray"
+                android:textSize="@dimen/small_text" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3" />
+
+    <LinearLayout
+        android:id="@+id/playerControlGroup"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/main_padding"
+        android:layout_weight="1.6"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="5.6">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/playerControlRewind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/main_padding"
+                android:src="@drawable/ic_prev" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.55"
+            android:padding="4dp">
+
+            <ImageButton
+                android:id="@+id/playerControlPlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_play" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/playerControlForward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/main_padding"
+                android:src="@drawable/ic_next" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/playerList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/main_padding"
+                android:layout_marginRight="@dimen/main_padding"
+                android:padding="@dimen/main_padding"
+                android:src="@drawable/ic_queue_music" />
+
+            <ImageButton
+                android:id="@+id/playerRepeatType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/main_padding"
+                android:layout_marginRight="@dimen/main_padding"
+                android:padding="@dimen/main_padding"
+                android:src="@drawable/ic_repeat_on" />
+
+            <RelativeLayout
+                android:layout_width="@dimen/divider_border"
+                android:layout_height="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/main_padding"
+                android:layout_marginRight="@dimen/main_padding"
+                android:background="@color/prgGray" />
+
+            <ImageButton
+                android:id="@+id/playerEq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/main_padding"
+                android:layout_marginRight="@dimen/main_padding"
+                android:padding="@dimen/main_padding"
+                android:src="@drawable/ic_eq" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.2"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_volume_mute" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/playerVolume"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:thumbTint="@color/colorPrimary"
+            android:progressTint="@color/colorPrimary"
+            android:progressBackgroundTint="@color/prgLgtGray"/>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_volume_up" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1" />
+</LinearLayout>

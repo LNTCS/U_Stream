@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/lib/kr.edcan.youtube"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:minHeight="?attr/actionBarSize"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:layout_scrollFlags="scroll|enterAlways|snap">
+
+    <TextView
+        android:id="@+id/toolbarTiitle"
+        android:text="Title"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/label_text"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
+    <ImageButton
+        android:id="@+id/toolbarBack"
+        android:src="@drawable/ic_back"
+        android:padding="@dimen/main_padding"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:adjustViewBounds="true"
+        android:layout_width="?attr/actionBarSize"
+        android:layout_height="match_parent" />
+</RelativeLayout>
+
