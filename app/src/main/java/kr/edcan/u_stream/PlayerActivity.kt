@@ -89,13 +89,13 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
         return false
     }
 
-    override fun onProgressChanged(seekArc: SeekArc?, progress: Int, fromUser: Boolean) {
+    override fun onProgressChanged(seekArc: SeekArc, progress: Int, fromUser: Boolean) {
         playerPlayed.text = PlayUtil.parseTime(PlayService.mediaPlayer.currentPosition.toLong())
     }
 
-    override fun onStartTrackingTouch(seekArc: SeekArc?) {
+    override fun onStartTrackingTouch(seekArc: SeekArc) {
     }
-    override fun onStopTrackingTouch(seekArc: SeekArc?) {
+    override fun onStopTrackingTouch(seekArc: SeekArc) {
     }
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         when (keyCode) {
