@@ -18,7 +18,8 @@ import android.util.SparseArray
 import android.widget.ImageView
 import android.widget.RemoteViews
 import android.widget.TextView
-import at.huber.youtubeExtractor.YouTubeUriExtractor
+import at.huber.youtubeExtractor.VideoMeta
+import at.huber.youtubeExtractor.YouTubeExtractor
 import at.huber.youtubeExtractor.YtFile
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.NotificationTarget
@@ -67,11 +68,11 @@ class PlayService : Service() {
         }
 
         fun playORpause() {
-            if (mediaPlayer.isPlaying){
+            if (mediaPlayer.isPlaying) {
                 mediaPlayer.pause()
                 PlayUtil.setAction(mContext, PlayService.ACTION_PAUSE)
                 mContext.startService(PlayUtil.getService(mContext))
-            }else {
+            } else {
                 mediaPlayer.start()
                 PlayUtil.setAction(mContext, PlayService.ACTION_RESUME)
                 mContext.startService(PlayUtil.getService(mContext))
@@ -79,7 +80,7 @@ class PlayService : Service() {
             updateView()
         }
 
-         fun updateView() {
+        fun updateView() {
             notification?.let {
                 remoteView?.let {
                     it.setTextViewText(R.id.notifyTitle, nowPlaying.title)
@@ -99,7 +100,7 @@ class PlayService : Service() {
         var remoteView: RemoteViews? = null
         var builder by Delegates.notNull<NotificationCompat.Builder>()
         var manager by Delegates.notNull<NotificationManager>()
-        var ytEx: YouTubeUriExtractor? = null
+        var ytEx: YouTubeExtractor? = null
     }
 
     init {
@@ -176,28 +177,28 @@ class PlayService : Service() {
 
     fun play() {
         playable = false
-        ytEx = object : YouTubeUriExtractor(mContext) {
-            override fun onUrisAvailable(videoId: String, videoTitle: String, ytFiles: SparseArray<YtFile>?) {
-                if (ytFiles != null) {
-                    var maxBitrate = 0
-                    var link = ""
-                    for (i in 0..ytFiles.size() - 1) {
-                        val m = ytFiles.get(ytFiles.keyAt(i)).meta
-                        if (m.ext.contains("webm") && m.height > 0) {
-                            if (maxBitrate < m.audioBitrate) {
-                                link = ytFiles.get(ytFiles.keyAt(i)).url
-                                maxBitrate = m.audioBitrate
-                            }
+        ytEx = object : YouTubeExtractor(mContext) {
+            override fun onExtractionComplete(ytFiles: SparseArray<YtFile>?, meta: VideoMeta) = if (ytFiles != null) {
+                var maxBitrate = 0
+                var link = ""
+                for (i in 0..ytFiles.size() - 1) {
+                    val m = ytFiles.get(ytFiles.keyAt(i)).format
+                    if (m.ext.contains("webm") && m.height > 0) {
+                        if (maxBitrate < m.audioBitrate) {
+                            link = ytFiles.get(ytFiles.keyAt(i)).url
+                            maxBitrate = m.audioBitrate
                         }
                     }
-                    mediaPlayer.setDataSource(mContext, Uri.parse(link))
-                    mediaPlayer.prepareAsync()
-                } else {
-                    toast("재생에 문제 발생")
                 }
+                mediaPlayer.setDataSource(mContext, Uri.parse(link))
+                mediaPlayer.prepareAsync()
+            } else {
+                //todo play next music
+                toast("재생에 문제 발생")
+//                PlayUtil.playOther(mContext, true)
             }
         }
-        ytEx!!.execute("https://www.youtube.com/watch?v=${nowPlaying!!.videoId}")
+        ytEx!!.extract("https://www.youtube.com/watch?v=${nowPlaying.videoId}", true, true)
     }
 
     fun setIntent(views: RemoteViews) {
