@@ -67,10 +67,15 @@ class PlayService : Service() {
         }
 
         fun playORpause() {
-            if (mediaPlayer.isPlaying)
+            if (mediaPlayer.isPlaying){
                 mediaPlayer.pause()
-            else
+                PlayUtil.setAction(mContext, PlayService.ACTION_PAUSE)
+                mContext.startService(PlayUtil.getService(mContext))
+            }else {
                 mediaPlayer.start()
+                PlayUtil.setAction(mContext, PlayService.ACTION_RESUME)
+                mContext.startService(PlayUtil.getService(mContext))
+            }
             updateView()
         }
 
@@ -149,7 +154,6 @@ class PlayService : Service() {
 
 
     fun startNotification() {
-        builder.setContentTitle("재생중")
         notification = builder.build()
         updateView()
         this.startForeground(NOTIFICATION_NUM, notification)
@@ -157,7 +161,6 @@ class PlayService : Service() {
 
     fun stopNotification() {
         this.stopForeground(false)
-        builder.setContentTitle("멈춰라 얍!")
         notification = builder.build()
         updateView()
         manager.notify(NOTIFICATION_NUM, notification)
