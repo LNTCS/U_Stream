@@ -25,8 +25,8 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
         setContentView(R.layout.activity_player)
         toolbarTitle.text = "지금 재생중"
 
-        initLayout()
         initProgressBar()
+        initLayout()
         initVolCtrl()
     }
 
