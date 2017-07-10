@@ -39,8 +39,7 @@ class PlaylistActivity : AppCompatActivity() {
                             DialogUtil.deletePlayListDialog(this@PlaylistActivity, binding.item, title, musicList)
                         }
                         binding.playlistPlay.onClick {
-                            PlayService.nowPlaying = binding.item
-                            PlayUtil.startService(this@PlaylistActivity, PlayService.ACTION_START)
+                            PlayUtil.playOther(this@PlaylistActivity, PlayUtil.TYPE.NEW, binding.item)
                         }
                     }
                 }

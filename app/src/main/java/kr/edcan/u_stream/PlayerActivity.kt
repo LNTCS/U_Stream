@@ -142,3 +142,4 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
         }
     }
 }
+//todo 재생중에 플레이 들가면 max 미설정
