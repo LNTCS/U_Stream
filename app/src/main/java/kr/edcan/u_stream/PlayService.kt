@@ -47,6 +47,8 @@ class PlayService : Service() {
         var uploaderViews = ObservableArrayList<TextView>()
         var btmPlaying: ImageView? = null
         var playingThumbnail: ImageView? = null
+        var playingTotal: TextView? = null
+//        var playingSeek: SeekArc? = null
 
         var playingList = ArrayList<Int>()
         var isInitial = false
@@ -60,7 +62,6 @@ class PlayService : Service() {
             setOnPreparedListener {
                 playable = true
                 updateView()
-                PlayerActivity.setMaxProgress()
 //                updateTimePrg()
 //                updateState(Pair(nowPlaying.title, nowPlaying.uploader))
             }
@@ -118,6 +119,8 @@ class PlayService : Service() {
             }
             playingThumbnail?.let { Glide.with(mContext).load(nowPlaying.thumbUri).asBitmap().into(it) }
             btmPlaying?.setImageResource(if (mediaPlayer.isPlaying) R.drawable.ic_btm_pause else R.drawable.ic_btm_play)
+            playingTotal?.text = PlayUtil.parseTime(mediaPlayer.duration.toLong())
+            PlayerActivity.setMaxProgress()
         }
 
         var beforeEvent: Long = 0
@@ -146,7 +149,7 @@ class PlayService : Service() {
         notification = builder.build()
         manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         setIntent(remoteView!!)
-        PlayerActivity.primarySeekBarProgressUpdater(PlayerActivity.playerSeekBar)
+        PlayerActivity.primarySeekBarProgressUpdater()
         super.onCreate()
     }
 

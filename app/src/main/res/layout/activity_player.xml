@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:seekarc="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:weightSum="10">
 
-    <include layout="@layout/toolbar_player" />
+    <include layout="@layout/toolbar_player"/>
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.2" />
+        android:layout_weight="0.2"/>
 
     <TextView
         android:id="@+id/playerTitle"
@@ -27,7 +26,7 @@
         android:paddingTop="@dimen/main_padding"
         android:text="μ'Stream"
         android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/label_text" />
+        android:textSize="@dimen/label_text"/>
 
     <TextView
         android:id="@+id/playerSubtitle"
@@ -41,7 +40,7 @@
         android:paddingRight="@dimen/actionbar_height"
         android:text="by EDCAN"
         android:textColor="@color/textGray"
-        android:textSize="@dimen/default_text" />
+        android:textSize="@dimen/default_text"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -54,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:layout_margin="26dp" />
+            android:layout_margin="26dp"/>
 
         <kr.edcan.u_stream.view.SeekArc
             android:id="@+id/playerSeek"
@@ -69,7 +68,7 @@
             seekarc:startAngle="30"
             seekarc:sweepAngle="300"
             seekarc:thumbSize="@dimen/label_text"
-            seekarc:touchInside="false" />
+            seekarc:touchInside="false"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -85,11 +84,11 @@
                 android:layout_height="wrap_content"
                 android:text="00:00"
                 android:textColor="@color/colorPrimary"
-                android:textSize="11sp" />
+                android:textSize="11sp"/>
 
             <Space
                 android:layout_width="26dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/playerTotal"
@@ -97,14 +96,14 @@
                 android:layout_height="wrap_content"
                 android:text="00:00"
                 android:textColor="@color/prgLgtGray"
-                android:textSize="@dimen/small_text" />
+                android:textSize="@dimen/small_text"/>
         </LinearLayout>
     </RelativeLayout>
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.3" />
+        android:layout_weight="0.3"/>
 
     <LinearLayout
         android:id="@+id/playerControlGroup"
@@ -119,7 +118,7 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -132,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:padding="@dimen/main_padding"
-                android:src="@drawable/ic_prev" />
+                android:src="@drawable/ic_prev"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -146,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_play" />
+                android:src="@drawable/ic_play"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -160,13 +159,13 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:padding="@dimen/main_padding"
-                android:src="@drawable/ic_next" />
+                android:src="@drawable/ic_next"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
     </LinearLayout>
 
     <RelativeLayout
@@ -188,7 +187,7 @@
                 android:layout_marginLeft="@dimen/main_padding"
                 android:layout_marginRight="@dimen/main_padding"
                 android:padding="@dimen/main_padding"
-                android:src="@drawable/ic_queue_music" />
+                android:src="@drawable/ic_queue_music"/>
 
             <ImageButton
                 android:id="@+id/playerRepeatType"
@@ -198,14 +197,14 @@
                 android:layout_marginLeft="@dimen/main_padding"
                 android:layout_marginRight="@dimen/main_padding"
                 android:padding="@dimen/main_padding"
-                android:src="@drawable/ic_repeat_on" />
+                android:src="@drawable/ic_repeat_on"/>
 
             <RelativeLayout
                 android:layout_width="@dimen/divider_border"
                 android:layout_height="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/main_padding"
                 android:layout_marginRight="@dimen/main_padding"
-                android:background="@color/prgLgtGray" />
+                android:background="@color/prgLgtGray"/>
 
             <ImageButton
                 android:id="@+id/playerEq"
@@ -215,14 +214,14 @@
                 android:layout_marginLeft="@dimen/main_padding"
                 android:layout_marginRight="@dimen/main_padding"
                 android:padding="@dimen/main_padding"
-                android:src="@drawable/ic_eq" />
+                android:src="@drawable/ic_eq"/>
         </LinearLayout>
     </RelativeLayout>
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.2" />
+        android:layout_weight="0.2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -242,7 +241,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_volume_mute" />
+                android:src="@drawable/ic_volume_mute"/>
         </RelativeLayout>
 
         <android.support.v7.widget.AppCompatSeekBar
@@ -250,9 +249,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="8"
-            android:thumbTint="@color/colorPrimary"
+            android:progressBackgroundTint="@color/prgLgtGray"
             android:progressTint="@color/colorPrimary"
-            android:progressBackgroundTint="@color/prgLgtGray"/>
+            android:thumbTint="@color/colorPrimary"/>
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -264,12 +263,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_volume_up" />
+                android:src="@drawable/ic_volume_up"/>
         </RelativeLayout>
     </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.1" />
+        android:layout_weight="0.1"/>
 </LinearLayout>

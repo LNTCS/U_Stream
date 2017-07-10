@@ -9,7 +9,6 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.widget.SeekBar
-import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.tramsun.libs.prefcompat.Pref
 import kotlinx.android.synthetic.main.activity_player.*
@@ -17,7 +16,7 @@ import kotlinx.android.synthetic.main.toolbar_player.*
 import kr.edcan.u_stream.view.SeekArc
 import org.jetbrains.anko.onClick
 
-class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeekArcChangeListener  {
+class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeekArcChangeListener {
 
     var types = intArrayOf(R.drawable.ic_repeat_on, R.drawable.ic_repeat_one_on, R.drawable.ic_shuffle_on)
 
@@ -33,10 +32,10 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
 
     private fun initLayout() {
         playerSeekBar = playerSeek
-        totalTimeTv = playerTotal
+        PlayService.playingTotal = playerTotal
 
-        setCurrentProgress(playerSeek)
-        primarySeekBarProgressUpdater(playerSeek)
+        setCurrentProgress()
+        primarySeekBarProgressUpdater()
         setMaxProgress()
 
         PlayService.addTitleView(playerTitle)
@@ -69,12 +68,14 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
     }
 
     private fun initProgressBar() {
-        playerSeek.apply {
+        playerSeek.run {
             setMax(100)
-            progress = 0
             setOnTouchListener(this@PlayerActivity)
             setOnSeekArcChangeListener(this@PlayerActivity)
             setSecondaryProgress(0)
+            val p = (PlayService.mediaPlayer.currentPosition.toFloat() / 1000).toInt()
+            progress = if (p > 0) p else 0
+            setSecondaryProgress(PlayService.buffer)
         }
     }
 
@@ -95,8 +96,10 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
 
     override fun onStartTrackingTouch(seekArc: SeekArc) {
     }
+
     override fun onStopTrackingTouch(seekArc: SeekArc) {
     }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_DOWN -> playerVolume.progress = playerVolume.progress - 1
@@ -106,32 +109,31 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
     }
 
     companion object {
-        var playerSeekBar : SeekArc? =  null
-        var totalTimeTv : TextView? =  null
+        var playerSeekBar: SeekArc? = null
         @JvmStatic
-        fun primarySeekBarProgressUpdater(seekBar: SeekArc?) {
-            setCurrentProgress(seekBar)
-            val notification = Runnable { primarySeekBarProgressUpdater(seekBar) }
+        fun primarySeekBarProgressUpdater() {
+            setCurrentProgress()
+            val notification = Runnable { primarySeekBarProgressUpdater() }
             Handler().postDelayed(notification, 1000)
         }
 
-        fun setCurrentProgress(seekBar: SeekArc?){
-            if(seekBar != null) {
-                if (!seekBar.isTouching) {
+        fun setCurrentProgress() {
+            playerSeekBar?.let {
+                if (!it.isTouching) {
                     val progress = (PlayService.mediaPlayer.currentPosition.toFloat() / 1000).toInt()
-                    seekBar.progress = if (progress > 0) progress else 0
-                    seekBar.setSecondaryProgress(PlayService.buffer)
+                    it.progress = if (progress > 0) progress else 0
+                    it.setSecondaryProgress(PlayService.buffer)
                 }
                 if (!PlayService.playable) {
-                    seekBar.progress = 0
-                    seekBar.setSecondaryProgress(0)
+                    it.progress = 0
+                    it.setSecondaryProgress(0)
                 }
             }
         }
 
-        fun setMaxProgress(){
+        fun setMaxProgress() {
             playerSeekBar?.setMax(PlayService.mediaPlayer.duration / 1000)
-            totalTimeTv?.text = PlayUtil.parseTime(PlayService.mediaPlayer.duration.toLong())
+            PlayService.playingTotal?.text = PlayUtil.parseTime(PlayService.mediaPlayer.duration.toLong())
         }
     }
 }
