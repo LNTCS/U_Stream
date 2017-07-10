@@ -74,7 +74,7 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
 
     private fun initProgressBar() {
         playerSeek.run {
-            setMax(100)
+            setMax(10000)
             setOnTouchListener(this@PlayerActivity)
             setOnSeekArcChangeListener(this@PlayerActivity)
             setSecondaryProgress(0)
@@ -138,9 +138,8 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
 
         fun setMaxProgress() {
             var duration = PlayService.mediaPlayer.duration
-            playerSeekBar?.setMax(if(duration != 0) duration / 1000 else 100)
+            playerSeekBar?.setMax(if (duration != 0) duration / 1000 else 10000)
             PlayService.playingTotal?.text = PlayUtil.parseTime(duration.toLong())
         }
     }
 }
-//todo 재생중에 플레이 들가면 max 미설정
