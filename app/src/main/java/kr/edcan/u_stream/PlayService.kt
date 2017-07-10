@@ -225,7 +225,7 @@ class PlayService : Service() {
             } else {
                 //todo play next music
                 toast("재생에 문제 발생")
-//                PlayUtil.playOther(mContext, true)
+                PlayUtil.playOther(mContext, PlayUtil.TYPE.NEXT)
             }
         }
         ytEx!!.extract("https://www.youtube.com/watch?v=${nowPlaying.videoId}", true, true)

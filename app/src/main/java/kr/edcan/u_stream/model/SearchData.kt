@@ -38,7 +38,7 @@ class SearchData(val id: String, val title: String, val description: String, val
     }
 
     val playMusic = View.OnClickListener {
-        PlayUtil.playOther(it.context, MusicData(this), PlayUtil.TYPE.NEW)
+        PlayUtil.playOther(it.context, PlayUtil.TYPE.NEW, MusicData(this))
         Log.e("asdf", "playMusic")
     }
 }

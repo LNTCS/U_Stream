@@ -53,7 +53,7 @@ object PlayUtil {
         }
     }
 
-    fun playOther(context: Context, musicData: MusicData = MusicData(), type: TYPE) {
+    fun playOther(context: Context, type: TYPE, musicData: MusicData = MusicData()) {
         when(type){
             TYPE.NEW->{
                 if (PlayService.nowPlaying.playListId == musicData.playListId) {
