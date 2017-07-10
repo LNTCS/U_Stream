@@ -46,6 +46,7 @@ class PlayService : Service() {
         var titleViews = ObservableArrayList<TextView>()
         var uploaderViews = ObservableArrayList<TextView>()
         var btmPlaying: ImageView? = null
+        var mainPlaying: ImageView? = null
         var playingThumbnail: ImageView? = null
         var playingTotal: TextView? = null
 
@@ -118,6 +119,7 @@ class PlayService : Service() {
             }
             playingThumbnail?.let { Glide.with(mContext).load(nowPlaying.thumbUri).asBitmap().into(it) }
             btmPlaying?.setImageResource(if (mediaPlayer.isPlaying) R.drawable.ic_btm_pause else R.drawable.ic_btm_play)
+            mainPlaying?.setImageResource(if (mediaPlayer.isPlaying) R.drawable.ic_pause else R.drawable.ic_play)
             playingTotal?.text = PlayUtil.parseTime(mediaPlayer.duration.toLong())
             PlayerActivity.setMaxProgress()
         }

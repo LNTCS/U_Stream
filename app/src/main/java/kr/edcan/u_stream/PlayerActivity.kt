@@ -33,6 +33,7 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
     private fun initLayout() {
         playerSeekBar = playerSeek
         PlayService.playingTotal = playerTotal
+        PlayService.mainPlaying = playerControlPlay
 
         setCurrentProgress()
         primarySeekBarProgressUpdater()
@@ -46,6 +47,10 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
 
         toolbarBack.onClick { onBackPressed() }
         playerRepeatType.setImageResource(types[Pref.getInt("repeatType", 0)])
+
+        playerControlForward.onClick { PlayUtil.playOther(applicationContext, PlayUtil.TYPE.NEXT) }
+        playerControlRewind.onClick { PlayUtil.playOther(applicationContext, PlayUtil.TYPE.PREV) }
+        playerControlPlay.onClick { PlayService.playORpause() }
     }
 
     private fun initVolCtrl() {
