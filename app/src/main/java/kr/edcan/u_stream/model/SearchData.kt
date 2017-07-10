@@ -1,10 +1,12 @@
 package kr.edcan.u_stream.model
 
 import android.databinding.BindingAdapter
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import kr.edcan.u_stream.Application.Companion.realm
+import kr.edcan.u_stream.PlayUtil
 import kr.edcan.u_stream.utils.DialogUtil
 
 /**
@@ -33,5 +35,10 @@ class SearchData(val id: String, val title: String, val description: String, val
         } else {
             DialogUtil.selectPlayListDialog(it.context, this, type)
         }
+    }
+
+    val playMusic = View.OnClickListener {
+        PlayUtil.playOther(it.context, MusicData(this), PlayUtil.TYPE.NEW)
+        Log.e("asdf", "playMusic")
     }
 }

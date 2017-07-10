@@ -2,6 +2,12 @@ package kr.edcan.u_stream
 
 import android.content.Context
 import android.content.Intent
+import com.tramsun.libs.prefcompat.Pref
+import com.vicpin.krealmextensions.query
+import com.vicpin.krealmextensions.queryFirst
+import kr.edcan.u_stream.model.MusicData
+import kr.edcan.u_stream.model.RM_MusicData
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -45,5 +51,62 @@ object PlayUtil {
                     TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)))
             return time
         }
+    }
+
+    fun playOther(context: Context, musicData: MusicData = MusicData(), type: TYPE) {
+        when(type){
+            TYPE.NEW->{
+                if (PlayService.nowPlaying.playListId == musicData.playListId) {
+                    setPlayingIndex(musicData)
+                } else {
+                    setPlayingList(musicData)
+                }
+                PlayService.nowPlaying = musicData
+            }
+            TYPE.PREV->{
+                PlayService.INDEX--
+                if (PlayService.INDEX < 0) {
+                    PlayService.INDEX = PlayService.playingList.size - 1
+                }
+                PlayService.nowPlaying = getMusicByIndex()
+            }
+            TYPE.NEXT->{
+                PlayService.INDEX++
+                if (PlayService.INDEX > PlayService.playingList.size - 1) {
+                    PlayService.INDEX = 0
+                }
+                PlayService.nowPlaying = getMusicByIndex()
+            }
+        }
+        startService(context, PlayService.ACTION_START)
+    }
+
+    fun setPlayingIndex(musicData: MusicData) {
+        if (musicData.id in PlayService.playingList) {
+            PlayService.INDEX = PlayService.playingList.indexOf(musicData.id)
+        }
+    }
+
+    fun setPlayingList(musicData: MusicData) {
+        PlayService.playingList.clear()
+        RM_MusicData().query { it.equalTo("playListId", musicData.playListId) }.forEach {
+            PlayService.playingList.add(it.id)
+        }
+        if (Pref.getInt("repeatType", 0) == 2) { //셔플상태의 경우 뒤섞기
+            Collections.shuffle(PlayService.playingList)
+        }
+        setPlayingIndex(musicData)
+    }
+
+    private fun getMusicByIndex(): MusicData {
+        if (PlayService.playingList.size <= 1) {
+            return PlayService.nowPlaying
+        } else {
+            return MusicData(RM_MusicData().queryFirst { it.equalTo("id", PlayService.playingList[PlayService.INDEX]) }!!)
+        }
+    }
+
+    enum class TYPE{
+        NEW, PREV, NEXT
     }
 }

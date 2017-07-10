@@ -48,7 +48,6 @@ class PlayService : Service() {
         var btmPlaying: ImageView? = null
         var playingThumbnail: ImageView? = null
         var playingTotal: TextView? = null
-//        var playingSeek: SeekArc? = null
 
         var playingList = ArrayList<Int>()
         var isInitial = false
@@ -66,7 +65,7 @@ class PlayService : Service() {
 //                updateState(Pair(nowPlaying.title, nowPlaying.uploader))
             }
             setOnCompletionListener {
-//                updateState(Pair(nowPlaying.title, nowPlaying.uploader))
+                //                updateState(Pair(nowPlaying.title, nowPlaying.uploader))
 //                PlayUtil.playOther(mContext, true) // 한곡재생이라면 여기서 다시 프로그레스를 0으로
             }
         }
@@ -124,6 +123,7 @@ class PlayService : Service() {
         }
 
         var beforeEvent: Long = 0
+        var INDEX: Int = 0
         var playable = true
         var mContext by Delegates.notNull<Context>()
         var notification: Notification? = null
@@ -183,7 +183,6 @@ class PlayService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-
     fun startNotification() {
         notification = builder.build()
         updateView()
@@ -205,6 +204,7 @@ class PlayService : Service() {
         return null
     }
 
+    //재생 관련 함수
     fun play() {
         playable = false
         ytEx = object : YouTubeExtractor(mContext) {

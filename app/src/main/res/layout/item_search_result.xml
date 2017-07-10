@@ -82,6 +82,7 @@
             android:layout_height="@dimen/tab_height"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_search_play"
+            android:onClick="@{item.playMusic}"
             android:visibility="@{(item.type == SType.MUSIC)? View.VISIBLE : View.GONE}"/>
 
         <android.support.v4.widget.Space
