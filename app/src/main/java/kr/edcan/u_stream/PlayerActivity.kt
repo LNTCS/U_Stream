@@ -137,8 +137,9 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
         }
 
         fun setMaxProgress() {
-            playerSeekBar?.setMax(PlayService.mediaPlayer.duration / 1000)
-            PlayService.playingTotal?.text = PlayUtil.parseTime(PlayService.mediaPlayer.duration.toLong())
+            var duration = PlayService.mediaPlayer.duration
+            playerSeekBar?.setMax(if(duration != 0) duration / 1000 else 100)
+            PlayService.playingTotal?.text = PlayUtil.parseTime(duration.toLong())
         }
     }
 }
