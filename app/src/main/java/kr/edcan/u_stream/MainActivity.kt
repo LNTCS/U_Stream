@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
         if(PlayService.nowPlaying.isNull) {
             val latest = Gson().fromJson<MusicData>(Pref.getString("latestPlay"), MusicData::class.java)
-            if (latest != null) {
+            if (latest != null && !latest.isNull) {
                 PlayService.nowPlaying = latest
                 PlayUtil.setPlayingList(PlayService.nowPlaying)
                 PlayUtil.startService(this, PlayService.ACTION_INIT)
