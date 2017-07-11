@@ -1,6 +1,5 @@
 package kr.edcan.u_stream
 
-import android.content.Context
 import android.media.AudioManager
 import android.os.Bundle
 import android.os.Handler
@@ -14,6 +13,7 @@ import com.tramsun.libs.prefcompat.Pref
 import kotlinx.android.synthetic.main.activity_player.*
 import kotlinx.android.synthetic.main.toolbar_player.*
 import kr.edcan.u_stream.view.SeekArc
+import org.jetbrains.anko.audioManager
 import org.jetbrains.anko.onClick
 
 class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeekArcChangeListener {
@@ -54,7 +54,6 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
     }
 
     private fun initVolCtrl() {
-        val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         playerVolume.max = audioManager
                 .getStreamMaxVolume(AudioManager.STREAM_MUSIC) - 1
         playerVolume.progress = audioManager
@@ -107,8 +106,8 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         when (keyCode) {
-            KeyEvent.KEYCODE_VOLUME_DOWN -> playerVolume.progress = playerVolume.progress - 1
-            KeyEvent.KEYCODE_VOLUME_UP -> playerVolume.progress = playerVolume.progress + 1
+            KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP ->
+                playerVolume.progress = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
         }
         return super.onKeyDown(keyCode, event)
     }
