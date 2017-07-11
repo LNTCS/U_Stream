@@ -64,8 +64,8 @@ class PlayService : Service() {
                 updateView()
             }
             setOnCompletionListener {
-                if(this.duration != 0 && this.duration - 1000 < this.currentPosition){
-                    if(Pref.getInt("repeatType", 0) == 1)
+                if (this.duration != 0 && this.duration - 1000 < this.currentPosition) {
+                    if (Pref.getInt("repeatType", 0) == 1)
                         PlayUtil.playOther(mContext, PlayUtil.TYPE.NEW, nowPlaying)
                     else
                         PlayUtil.playOther(mContext, PlayUtil.TYPE.NEXT)

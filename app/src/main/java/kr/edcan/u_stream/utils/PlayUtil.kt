@@ -2,6 +2,7 @@ package kr.edcan.u_stream
 
 import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
 import com.tramsun.libs.prefcompat.Pref
 import com.vicpin.krealmextensions.query
 import com.vicpin.krealmextensions.queryFirst
@@ -35,6 +36,7 @@ object PlayUtil {
     fun startService(mContext: Context, action: String) {
         PlayUtil.setAction(mContext, action)
         mContext.startService(PlayUtil.getService(mContext))
+        tryToGetAudioFocus(mContext)
     }
 
     fun parseTime(ms: Long): String {
@@ -108,5 +110,22 @@ object PlayUtil {
 
     enum class TYPE{
         NEW, PREV, NEXT
+    }
+
+    fun tryToGetAudioFocus(context: Context) {
+        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val result = am.requestAudioFocus(
+                { focusChange ->
+                    when (focusChange) {
+                        AudioManager.AUDIOFOCUS_LOSS,
+                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT,
+                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK ->{
+                            PlayService.mediaPlayer.pause()
+                            PlayService.updateView()
+                        }
+                    }
+                },
+                AudioManager.STREAM_MUSIC,
+                AudioManager.AUDIOFOCUS_GAIN)
     }
 }
