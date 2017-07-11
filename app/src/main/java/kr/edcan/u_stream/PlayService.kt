@@ -65,7 +65,10 @@ class PlayService : Service() {
             }
             setOnCompletionListener {
                 if(this.duration != 0 && this.duration - 1000 < this.currentPosition){
-                    PlayUtil.playOther(mContext, PlayUtil.TYPE.NEXT)
+                    if(Pref.getInt("repeatType", 0) == 1)
+                        PlayUtil.playOther(mContext, PlayUtil.TYPE.NEW, nowPlaying)
+                    else
+                        PlayUtil.playOther(mContext, PlayUtil.TYPE.NEXT)
                 }
             }
         }

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageButton
 import android.widget.SeekBar
 import com.bumptech.glide.Glide
 import com.tramsun.libs.prefcompat.Pref
@@ -51,6 +52,12 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
         playerControlForward.onClick { PlayUtil.playOther(applicationContext, PlayUtil.TYPE.NEXT) }
         playerControlRewind.onClick { PlayUtil.playOther(applicationContext, PlayUtil.TYPE.PREV) }
         playerControlPlay.onClick { PlayService.playORpause() }
+        playerRepeatType.onClick {
+            Pref.putInt("repeatType", (Pref.getInt("repeatType", 0) + 1) % 3)
+            val type = Pref.getInt("repeatType", 0)
+            (it as ImageButton).setImageResource(types[type])
+            PlayUtil.setPlayingList(PlayService.nowPlaying)
+        }
     }
 
     private fun initVolCtrl() {
