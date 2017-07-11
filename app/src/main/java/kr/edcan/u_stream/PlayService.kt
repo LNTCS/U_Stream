@@ -118,6 +118,11 @@ class PlayService : Service() {
                     val notificationTarget = NotificationTarget(mContext, it, R.id.notifyThumb, notification, NOTIFICATION_NUM)
                     Glide.with(mContext).load(nowPlaying.thumbUri).asBitmap().placeholder(R.drawable.ic_notify_album).into(notificationTarget)
                 }
+                val i = Intent(mContext, PlayerActivity::class.java)
+                i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                i.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                val pi = PendingIntent.getActivity(mContext, 0, i, PendingIntent.FLAG_UPDATE_CURRENT)
+                it.contentIntent = pi
             }
             playingThumbnail?.let { Glide.with(mContext).load(nowPlaying.thumbUri).asBitmap().into(it) }
             btmPlaying?.setImageResource(if (mediaPlayer.isPlaying) R.drawable.ic_btm_pause else R.drawable.ic_btm_play)
