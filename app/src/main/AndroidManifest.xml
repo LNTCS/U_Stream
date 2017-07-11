@@ -21,9 +21,12 @@
         </activity>
         <activity android:name=".SearchActivity"/>
         <activity android:name=".PlaylistActivity"/>
-
         <service android:name=".PlayService"/>
-
+        <receiver android:name =".EarphoneBroadcast">
+            <intent-filter android:priority="9999">
+                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
+            </intent-filter>
+        </receiver>
         <activity android:name=".PlayerActivity"/>
     </application>
 
