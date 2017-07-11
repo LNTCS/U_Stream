@@ -63,6 +63,11 @@ class PlayService : Service() {
                 playable = true
                 updateView()
             }
+            setOnCompletionListener {
+                if(this.duration != 0 && this.duration - 1000 < this.currentPosition){
+                    PlayUtil.playOther(mContext, PlayUtil.TYPE.NEXT)
+                }
+            }
         }
 
         var buffer = 0
