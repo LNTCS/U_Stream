@@ -62,12 +62,6 @@ class PlayService : Service() {
             setOnPreparedListener {
                 playable = true
                 updateView()
-//                updateTimePrg()
-//                updateState(Pair(nowPlaying.title, nowPlaying.uploader))
-            }
-            setOnCompletionListener {
-                //                updateState(Pair(nowPlaying.title, nowPlaying.uploader))
-//                PlayUtil.playOther(mContext, true) // 한곡재생이라면 여기서 다시 프로그레스를 0으로
             }
         }
 
@@ -225,7 +219,6 @@ class PlayService : Service() {
                 mediaPlayer.setDataSource(mContext, Uri.parse(link))
                 mediaPlayer.prepareAsync()
             } else {
-                //todo play next music
                 toast("재생에 문제 발생")
                 PlayUtil.playOther(mContext, PlayUtil.TYPE.NEXT)
             }
@@ -260,7 +253,7 @@ class PlayService : Service() {
             override fun onReceive(context: Context, intent: Intent) {
                 val currentEvent = System.currentTimeMillis()
                 if (beforeEvent < currentEvent - 100 && playable) {
-                    // TODO 다음곡 재생
+                    PlayUtil.playOther(mContext, PlayUtil.TYPE.NEXT)
                 }
                 beforeEvent = currentEvent
             }
