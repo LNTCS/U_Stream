@@ -224,15 +224,16 @@ object DialogUtil {
                     musicId++
                 }
                 if (jsonObject.has("nextPageToken")) {
-                    getNext(mContext, jsonObject.getString("nextPageToken"), mList, id, playlistId, musicId)
-                }
-                realm.executeTransaction { realm ->
-                    for (mData in mList) {
-                        realm.copyToRealm<RM_MusicData>(mData)
+                    getNext(mContext, jsonObject.getString("nextPageToken"), mList, id, playlistId, musicId, title)
+                } else {
+                    realm.executeTransaction { realm ->
+                        for (mData in mList) {
+                            realm.copyToRealm<RM_MusicData>(mData)
+                        }
                     }
+                    hideProgressDialog()
+                    mContext.toast(title + "에 " + mList.size + "곡이 추가되었습니다.")
                 }
-                hideProgressDialog()
-                mContext.toast(title + "에 " + mList.size + "곡이 추가되었습니다.")
             } else {
                 hideProgressDialog()
                 failDialog(mContext, title = "분석 실패", content = "분석 중 오류가 발생하였습니다.\n다시 시도해 주세요.")
@@ -240,7 +241,7 @@ object DialogUtil {
         }
     }
 
-    fun getNext(mContext: Context, nextPageToken: String, mList: ArrayList<RM_MusicData>, id: String, playlistId: Int, musicId: Int) {
+    fun getNext(mContext: Context, nextPageToken: String, mList: ArrayList<RM_MusicData>, id: String, playlistId: Int, musicId: Int, title: String) {
         var musicId = musicId
         (YOUTUBE_BASE_URL + "/playlistItems").httpGet(
                 listOf("part" to "snippet", "maxResults" to 50.toString(), "key" to KEY_LIST, "playlistId" to id, "pageToken" to nextPageToken)
@@ -270,7 +271,15 @@ object DialogUtil {
                     musicId++
                 }
                 if (jsonObject.has("nextPageToken")) {
-                    getNext(mContext, jsonObject.getString("nextPageToken"), mList, id, playlistId, musicId)
+                    getNext(mContext, jsonObject.getString("nextPageToken"), mList, id, playlistId, musicId, title)
+                } else {
+                    realm.executeTransaction { realm ->
+                        for (mData in mList) {
+                            realm.copyToRealm<RM_MusicData>(mData)
+                        }
+                    }
+                    hideProgressDialog()
+                    mContext.toast(title + "에 " + mList.size + "곡이 추가되었습니다.")
                 }
             } else {
                 hideProgressDialog()
@@ -300,7 +309,8 @@ object DialogUtil {
             inputType(InputType.TYPE_CLASS_TEXT)
             input("제목을 입력해주세요.", pData.title) { dialog, input -> }
             widgetColorRes(R.color.colorPrimary)
-            onPositive { dialog, which -> //확인
+            onPositive { dialog, which ->
+                //확인
                 val input = dialog.inputEditText!!.text.toString()
                 if (input.trim() == "") {
                     dialog.dismiss()
@@ -312,9 +322,10 @@ object DialogUtil {
                     }
                 }
             }
-            onNeutral { dialog, which -> //삭제
+            onNeutral { dialog, which ->
+                //삭제
                 realm.executeTransaction {
-                    for(music in realm.where(RM_MusicData::class.java).equalTo("playListId", rmData.id).findAll()){
+                    for (music in realm.where(RM_MusicData::class.java).equalTo("playListId", rmData.id).findAll()) {
                         music.deleteFromRealm()
                     }
                     rmData.deleteFromRealm()
@@ -325,8 +336,8 @@ object DialogUtil {
         mDlg.show()
     }
 
-    fun  deletePlayListDialog(mContext: Context, data: MusicData, playlistTitle: String, adapter: ObservableArrayList<MusicData>) {
-        val mDlg = MaterialDialog.Builder(mContext).run{
+    fun deletePlayListDialog(mContext: Context, data: MusicData, playlistTitle: String, adapter: ObservableArrayList<MusicData>) {
+        val mDlg = MaterialDialog.Builder(mContext).run {
             title("곡 제거")
             titleColorRes(R.color.colorPrimary)
             content("'" + data.title + "'을(를) '" + playlistTitle + "'에서 제거합니다.")
