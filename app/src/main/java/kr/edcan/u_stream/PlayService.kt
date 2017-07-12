@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.NotificationTarget
 import com.google.gson.Gson
 import com.tramsun.libs.prefcompat.Pref
+import kr.edcan.u_stream.PlayUtil.MAX_TIME
 import kr.edcan.u_stream.model.MusicData
 import org.jetbrains.anko.toast
 import java.util.*
@@ -64,8 +65,7 @@ class PlayService : Service() {
                 updateView()
             }
             setOnCompletionListener {
-                var h10 = 1000 * 60 * 60
-                if (this.duration != 0 && this.duration < h10 && this.duration - 1000 < this.currentPosition) {
+                if (this.duration != 0 && this.duration < MAX_TIME && this.duration - 1000 < this.currentPosition) {
                     if (Pref.getInt("repeatType", 0) == 1)
                         PlayUtil.playOther(mContext, PlayUtil.TYPE.NEW, nowPlaying)
                     else

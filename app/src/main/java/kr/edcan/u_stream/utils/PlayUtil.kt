@@ -128,4 +128,9 @@ object PlayUtil {
                 AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN)
     }
+
+    val MAX_TIME = 1000 * 60 * 60
+    fun checkMax(i : Int) : Int{
+        return if(i in 1..MAX_TIME) i else 0
+    }
 }

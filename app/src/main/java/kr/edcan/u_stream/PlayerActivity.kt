@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.tramsun.libs.prefcompat.Pref
 import kotlinx.android.synthetic.main.activity_player.*
 import kotlinx.android.synthetic.main.toolbar_player.*
+import kr.edcan.u_stream.PlayUtil.checkMax
 import kr.edcan.u_stream.view.SeekArc
 import org.jetbrains.anko.audioManager
 import org.jetbrains.anko.onClick
@@ -85,7 +86,7 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
             setOnSeekArcChangeListener(this@PlayerActivity)
             setSecondaryProgress(0)
             val p = (PlayService.mediaPlayer.currentPosition.toFloat() / 1000).toInt()
-            progress = if (p > 0) p else 0
+            progress = checkMax(p)
             setSecondaryProgress(PlayService.buffer)
         }
     }
@@ -102,7 +103,7 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
     }
 
     override fun onProgressChanged(seekArc: SeekArc, progress: Int, fromUser: Boolean) {
-        playerPlayed.text = PlayUtil.parseTime(PlayService.mediaPlayer.currentPosition.toLong())
+        playerPlayed.text = PlayUtil.parseTime(checkMax(PlayService.mediaPlayer.currentPosition).toLong())
     }
 
     override fun onStartTrackingTouch(seekArc: SeekArc) {
@@ -131,9 +132,9 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
         fun setCurrentProgress() {
             playerSeekBar?.let {
                 if (!it.isTouching) {
-                    val progress = (PlayService.mediaPlayer.currentPosition.toFloat() / 1000).toInt()
-                    it.progress = if (progress > 0) progress else 0
-                    it.setSecondaryProgress(PlayService.buffer)
+                    val progress = (checkMax(PlayService.mediaPlayer.currentPosition).toFloat() / 1000).toInt()
+                    it.progress = progress
+                    it.setSecondaryProgress(checkMax(PlayService.buffer))
                 }
                 if (!PlayService.playable) {
                     it.progress = 0
@@ -144,8 +145,9 @@ class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeek
 
         fun setMaxProgress() {
             var duration = PlayService.mediaPlayer.duration
-            playerSeekBar?.setMax(if (duration != 0) duration / 1000 else 10000)
-            PlayService.playingTotal?.text = PlayUtil.parseTime(duration.toLong())
+            checkMax(duration)
+            playerSeekBar?.setMax(if (checkMax(duration) != 0) duration / 1000 else 10000)
+            PlayService.playingTotal?.text = PlayUtil.parseTime(checkMax(duration).toLong())
         }
     }
 }
