@@ -1,10 +1,8 @@
 package kr.edcan.u_stream
 
 import android.content.Context
-import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.gson.Gson
@@ -13,20 +11,20 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import kr.edcan.u_stream.adpater.MainPagerAdapter
 import kr.edcan.u_stream.model.MusicData
-import org.jetbrains.anko.onClick
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.textColor
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
+    override var viewId: Int = R.layout.activity_main
+    override var toolbarId: Int = 0
 
     var pAdapter: MainPagerAdapter? = null
     var mainTabs = ArrayList<TextView>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override fun onCreate() {
         toolbarTitle.text = "플레이보드"
 
         mainTabs = arrayListOf(tabSpace, tabPlaylist, tabAnalog)

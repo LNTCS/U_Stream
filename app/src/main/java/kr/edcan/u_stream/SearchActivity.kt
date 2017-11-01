@@ -2,8 +2,6 @@ package kr.edcan.u_stream
 
 import android.content.Context
 import android.databinding.ObservableArrayList
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
@@ -19,21 +17,22 @@ import kr.edcan.u_stream.model.SType
 import kr.edcan.u_stream.model.SearchData
 import kr.edcan.u_stream.utils.DialogUtil
 import kr.edcan.u_stream.utils.DialogUtil.failDialog
-import org.jetbrains.anko.onClick
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.json.JSONException
 import org.json.JSONObject
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import kotlin.properties.Delegates
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : BaseActivity() {
+
+    override var viewId: Int = R.layout.activity_search
+    override var toolbarId: Int = 0
 
     var searchMusics = ObservableArrayList<SearchData>()
     var searchLists = ObservableArrayList<SearchData>()
     var searchResultAdapter by Delegates.notNull<SearchResultPagerAdapter>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+    override fun onCreate() {
         FuelManager.instance.basePath = YOUTUBE_BASE_URL
 
         searchEdit.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->

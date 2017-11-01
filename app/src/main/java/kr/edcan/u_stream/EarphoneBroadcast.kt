@@ -11,12 +11,13 @@ import android.media.AudioManager
 class EarphoneBroadcast : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (AudioManager.ACTION_AUDIO_BECOMING_NOISY == intent.action) {
-            pause()
+            pause(context)
         }
     }
 
-    internal fun pause() {
+    internal fun pause(context: Context) {
         PlayService.mediaPlayer.pause()
+        PlayUtil.startService(context, PlayService.ACTION_PAUSE)
         PlayService.updateView()
     }
 }

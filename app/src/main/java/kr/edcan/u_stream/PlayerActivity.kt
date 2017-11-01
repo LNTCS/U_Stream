@@ -1,9 +1,7 @@
 package kr.edcan.u_stream
 
 import android.media.AudioManager
-import android.os.Bundle
 import android.os.Handler
-import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
@@ -16,15 +14,16 @@ import kotlinx.android.synthetic.main.toolbar_player.*
 import kr.edcan.u_stream.PlayUtil.checkMax
 import kr.edcan.u_stream.view.SeekArc
 import org.jetbrains.anko.audioManager
-import org.jetbrains.anko.onClick
+import org.jetbrains.anko.sdk25.coroutines.onClick
 
-class PlayerActivity : AppCompatActivity(), View.OnTouchListener, SeekArc.OnSeekArcChangeListener {
+class PlayerActivity : BaseActivity(), View.OnTouchListener, SeekArc.OnSeekArcChangeListener {
+
+    override var viewId: Int = R.layout.activity_player
+    override var toolbarId: Int = 0
 
     var types = intArrayOf(R.drawable.ic_repeat_on, R.drawable.ic_repeat_one_on, R.drawable.ic_shuffle_on)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_player)
+    override fun onCreate() {
         toolbarTitle.text = "지금 재생중"
 
         initProgressBar()

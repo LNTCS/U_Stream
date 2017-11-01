@@ -12,18 +12,18 @@ import kr.edcan.u_stream.databinding.ItemPlaylistListBinding
 import kr.edcan.u_stream.model.MusicData
 import kr.edcan.u_stream.model.RM_MusicData
 import kr.edcan.u_stream.utils.DialogUtil
-import org.jetbrains.anko.onClick
+import org.jetbrains.anko.sdk25.coroutines.onClick
 
 
-class PlaylistActivity : AppCompatActivity() {
+class PlaylistActivity : BaseActivity() {
+
+    override var viewId: Int = R.layout.activity_playlist
+    override var toolbarId: Int = 0
 
     var musicList = ObservableArrayList<MusicData>()
     var title = ""
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_playlist)
-
+    override fun onCreate() {
         title = intent.getStringExtra("title")
         toolbarTitle.text = title
 
@@ -33,7 +33,7 @@ class PlaylistActivity : AppCompatActivity() {
         }
 
         LastAdapter.with(musicList, BR.item)
-                .map<MusicData, ItemPlaylistListBinding>(R.layout.item_playlist_list){
+                .map<MusicData, ItemPlaylistListBinding>(R.layout.item_playlist_list) {
                     onBind {
                         binding.playlistDelete.onClick {
                             DialogUtil.deletePlayListDialog(this@PlaylistActivity, binding.item, title, musicList)
